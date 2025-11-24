@@ -1,0 +1,24 @@
+[project]
+name = "finalproject-bialkovskii-m255-25"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "MisterSigmaMac",email = "egorzapekanka@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+]
+
+[tool.poetry]
+packages = [
+    { include = "valutetrade_hub" }
+]
+ 
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+project = "main:main"
