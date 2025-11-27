@@ -1,182 +1,28 @@
+"""
+Business logic layer for the currency trading system.
+This module contains use cases that implement the business logic of the application.
+"""
+
 import json
 import os
 from datetime import datetime
 from typing import Dict, Optional
+
 from valutetrade_hub.core.models import User, Portfolio, Wallet
-
-
-class UserStorage:
-    def __init__(self, users_file: str = "data/users.json"):
-        self.users_file = users_file
-        self._ensure_data_dir()
-    
-    def _ensure_data_dir(self):
-        """Creates the directory if it doesn't exist"""
-        os.makedirs(os.path.dirname(self.users_file), exist_ok=True)
-    
-    def load_users(self) -> Dict[str, User]:
-        """Loads users from the file"""
-        if not os.path.exists(self.users_file):
-            return {}
-        
-        try:
-            with open(self.users_file, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-
-        except json.JSONDecodeError:
-            print('Ошибка чтения файла')
-            return {}
-        except FileNotFoundError:
-            print('Файл не найден')
-            return {}
-        
-        users = {}
-        for username, user_data in data.items():
-            user = User.from_saved_data(
-                user_id=user_data['user_id'],
-                username=username,
-                hashed_password=user_data['hashed_password'],
-                salt=user_data['salt'],
-                registration_date=datetime.fromisoformat(user_data['registration_date'])
-            )
-            
-            users[username] = user
-        
-        return users
-    
-    def save_users(self, users: Dict[str, User]):
-        """Saves users into the file"""
-        data = {}
-        for username, user in users.items():
-            data[username] = {
-                'user_id': user.user_id,
-                'hashed_password': user.hashed_password,
-                'salt': user.salt,
-                'registration_date': user.registration_date.isoformat()
-            }
-        
-        try:
-            with open(self.users_file, 'w', encoding='utf-8') as f:
-                json.dump(data, f, ensure_ascii=False, indent=2)
-            print(f"Пользователи успешно сохранены в {self.users_file}")
-        except PermissionError:
-            print(f"Ошибка: Нет прав на запись в файл {self.users_file}")
-        except IOError as e:
-            print(f"Ошибка ввода-вывода при сохранении пользователей: {e}")
-        except Exception as e:
-            print(f"Неизвестная ошибка при сохранении пользователей: {e}")
-
-
-class PortfolioStorage:
-    def __init__(self, portfolios_file: str = "data/portfolios.json"):
-        self.portfolios_file = portfolios_file
-        self._ensure_data_dir()
-    
-    def _ensure_data_dir(self):
-        """Creates data directory if it doesn't exist"""
-        os.makedirs(os.path.dirname(self.portfolios_file), exist_ok=True)
-    
-    def load_portfolio(self, user_id: int) -> Portfolio:
-        """Loads user's portfolio"""
-        if not os.path.exists(self.portfolios_file):
-            return Portfolio(user_id)
-        
-        try:
-            with open(self.portfolios_file, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-        except (json.JSONDecodeError, FileNotFoundError):
-            return Portfolio(user_id)
-        
-        portfolio_data = data.get(str(user_id), {})
-        portfolio = Portfolio(user_id)
-        
-        for currency_code, balance in portfolio_data.get('wallets', {}).items():
-            portfolio.add_currency(currency_code)
-            wallet = portfolio.get_wallet(currency_code)
-            if wallet:
-                wallet.balance = balance
-        
-        return portfolio
-    
-    def save_portfolio(self, portfolio: Portfolio):
-        """Save user portfolio using Portfolio's built-in method"""
-        try:
-            try:
-                with open(self.portfolios_file, 'r', encoding='utf-8') as f:
-                    all_portfolios = json.load(f)
-            except (FileNotFoundError, json.JSONDecodeError):
-                all_portfolios = {}
-            
-            all_portfolios[str(portfolio.user_id)] = portfolio.get_portfolio_info()
-            
-            with open(self.portfolios_file, 'w', encoding='utf-8') as f:
-                json.dump(all_portfolios, f, ensure_ascii=False, indent=2)
-                
-        except Exception as e:
-            print(f"Ошибка сохранения портфеля: {e}")
-
-
-class RateStorage:
-    def __init__(self, rates_file: str = "data/rates.json"):
-        self.rates_file = rates_file
-        self._ensure_data_dir()
-    
-    def _ensure_data_dir(self):
-        """Creates data directory if it doesn't exist"""
-        os.makedirs(os.path.dirname(self.rates_file), exist_ok=True)
-    
-    def get_rate(self, from_currency: str, to_currency: str) -> Optional[float]:
-        """Get exchange rate"""
-        if from_currency == to_currency:
-            return 1.0
-        
-        pair_key = f"{from_currency}_{to_currency}"
-        
-        if not os.path.exists(self.rates_file):
-            return None
-        
-        try:
-            with open(self.rates_file, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-        except (json.JSONDecodeError, FileNotFoundError):
-            return None
-        
-        rate_data = data.get(pair_key)
-        if rate_data:
-            return rate_data.get('rate')
-        
-        return None
-    
-    def update_rate(self, from_currency: str, to_currency: str, rate: float):
-        """Update exchange rate"""
-        pair_key = f"{from_currency}_{to_currency}"
-        
-        if os.path.exists(self.rates_file):
-            try:
-                with open(self.rates_file, 'r', encoding='utf-8') as f:
-                    data = json.load(f)
-            except (json.JSONDecodeError, FileNotFoundError):
-                data = {}
-        else:
-            data = {}
-        
-        data[pair_key] = {
-            'rate': rate,
-            'updated_at': datetime.now().isoformat()
-        }
-        
-        data['source'] = 'LocalCache'
-        data['last_refresh'] = datetime.now().isoformat()
-        
-        with open(self.rates_file, 'w', encoding='utf-8') as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
+from valutetrade_hub.core.currencies import get_currency, is_valid_currency, CURRENCY_REGISTRY
+from valutetrade_hub.core.exceptions import InsufficientFundsError, CurrencyNotFoundError
+from valutetrade_hub.infra.settings import settings
+from valutetrade_hub.infra.database import db_manager
+from valutetrade_hub.decorators import log_action
 
 
 class UserUseCase:
-    def __init__(self):
-        self.user_storage = UserStorage()
-        self.portfolio_storage = PortfolioStorage()
+    """Business logic for user management"""
     
+    def __init__(self):
+        self.db_manager = db_manager
+    
+    @log_action("user_registration")
     def register_user(self, username: str, password: str) -> tuple[bool, str]:
         """Registration of a new user"""
         if not username or not username.strip():
@@ -185,7 +31,7 @@ class UserUseCase:
         if len(password) < 4:
             return False, "Пароль должен быть не короче 4 символов"
         
-        users = self.user_storage.load_users()
+        users = self.db_manager.load_users()
         
         if username in users:
             return False, f"Имя пользователя '{username}' уже занято"
@@ -195,16 +41,19 @@ class UserUseCase:
         user = User(user_id, username, password, datetime.now())
         users[username] = user
         
-        self.user_storage.save_users(users)
+        if not self.db_manager.save_users(users):
+            return False, "Ошибка сохранения пользователя"
         
         portfolio = Portfolio(user_id)
-        self.portfolio_storage.save_portfolio(portfolio)
+        if not self.db_manager.save_portfolio(portfolio):
+            return False, "Ошибка создания портфеля"
         
         return True, f"Пользователь '{username}' зарегистрирован (id={user_id}). Войдите: login --username {username} --password ****"
     
+    @log_action("user_login")
     def login_user(self, username: str, password: str) -> tuple[bool, str]:
         """Authorizes the user"""
-        users = self.user_storage.load_users()
+        users = self.db_manager.load_users()
         
         if username not in users:
             return False, f"Пользователь '{username}' не найден"
@@ -221,8 +70,9 @@ class RateUseCase:
     """Business logic for exchange rates"""
     
     def __init__(self):
-        self.rate_storage = RateStorage()
+        self.db_manager = db_manager
     
+    @log_action("get_exchange_rate")
     def get_exchange_rate(self, from_currency: str, to_currency: str) -> tuple[bool, str]:
         """Get formatted exchange rate information"""
         success, rate = self.calculate_rate(from_currency, to_currency)
@@ -254,6 +104,12 @@ class RateUseCase:
         if from_currency == to_currency:
             return True, 1.0
         
+        if not is_valid_currency(from_currency):
+            return False, 0.0
+        
+        if not is_valid_currency(to_currency):
+            return False, 0.0
+        
         fixed_rates = {
             'USD': 1.0,
             'EUR': 1.18,
@@ -261,11 +117,11 @@ class RateUseCase:
             'ETH': 0.0003,
         }
         
-        rate = self.rate_storage.get_rate(from_currency, to_currency)
+        rate = self.db_manager.get_rate(from_currency, to_currency)
         
         if rate is None:
-            from_rate_to_usd = self.rate_storage.get_rate(from_currency, 'USD')
-            to_rate_to_usd = self.rate_storage.get_rate(to_currency, 'USD')
+            from_rate_to_usd = self.db_manager.get_rate(from_currency, 'USD')
+            to_rate_to_usd = self.db_manager.get_rate(to_currency, 'USD')
             
             if from_rate_to_usd is None:
                 from_rate_to_usd = fixed_rates.get(from_currency, 1.0)
@@ -281,7 +137,7 @@ class RateUseCase:
             return False, 0.0
         
         # Сохраняем рассчитанный курс в хранилище для будущего использования
-        self.rate_storage.update_rate(from_currency, to_currency, rate)
+        self.db_manager.update_rate(from_currency, to_currency, rate)
         
         return True, rate
 
@@ -290,12 +146,16 @@ class PortfolioUseCase:
     """Business logic for portfolio management"""
     
     def __init__(self, rate_usecase: RateUseCase = None):
-        self.portfolio_storage = PortfolioStorage()
+        self.db_manager = db_manager
         self.rate_usecase = rate_usecase or RateUseCase()
     
+    @log_action("get_portfolio_info")
     def get_portfolio_info(self, user_id: int, base_currency: str = "USD") -> tuple[bool, str]:
         """Display user's portfolio info"""
-        portfolio = self.portfolio_storage.load_portfolio(user_id)
+        if not is_valid_currency(base_currency):
+            return False, f"Неподдерживаемая валюта: {base_currency}"
+        
+        portfolio = self.db_manager.load_portfolio(user_id)
         
         wallets = portfolio.wallets
         
@@ -335,12 +195,16 @@ class PortfolioUseCase:
         
         return True, "\n".join(lines)
     
+    @log_action("buy_currency")
     def buy_currency(self, user_id: int, currency_code: str, amount: float) -> tuple[bool, str]:
         """Buy currency using USD from the USD wallet"""
         if amount <= 0:
-            return False, "'amount' должен быть положительным числом"
+            return False, "Сумма должна быть положительным числом"
         
-        portfolio = self.portfolio_storage.load_portfolio(user_id)
+        if not is_valid_currency(currency_code):
+            return False, f"Неподдерживаемая валюта: {currency_code}"
+        
+        portfolio = self.db_manager.load_portfolio(user_id)
         
         if currency_code == "USD":
             if currency_code not in portfolio.wallets:
@@ -353,7 +217,8 @@ class PortfolioUseCase:
             old_balance = wallet.balance
             wallet.deposit(amount)
             
-            self.portfolio_storage.save_portfolio(portfolio)
+            if not self.db_manager.save_portfolio(portfolio):
+                return False, "Ошибка сохранения портфеля"
             
             lines = [f"Внесены средства: {amount:.4f} {currency_code}"]
             lines.append("Изменения в кошельке:")
@@ -393,7 +258,8 @@ class PortfolioUseCase:
         target_wallet.deposit(amount)
         usd_wallet.withdraw(cost_in_usd)
         
-        self.portfolio_storage.save_portfolio(portfolio)
+        if not self.db_manager.save_portfolio(portfolio):
+            return False, "Ошибка сохранения портфеля"
         
         lines = [f"Покупка произведена: {amount:.4f} {currency_code} по курсу {rate:.8f} USD/{currency_code}"]
         lines.append("Изменения в кошельках:")
@@ -403,12 +269,16 @@ class PortfolioUseCase:
         
         return True, "\n".join(lines)
     
+    @log_action("sell_currency")
     def sell_currency(self, user_id: int, currency_code: str, amount: float) -> tuple[bool, str]:
         """Sell currency and deposit equivalent USD to the USD wallet"""
         if amount <= 0:
-            return False, "'amount' должен быть положительным числом"
+            return False, "Сумма должна быть положительным числом"
         
-        portfolio = self.portfolio_storage.load_portfolio(user_id)
+        if not is_valid_currency(currency_code):
+            return False, f"Неподдерживаемая валюта: {currency_code}"
+        
+        portfolio = self.db_manager.load_portfolio(user_id)
         
         if currency_code not in portfolio.wallets:
             return False, f"У вас нет кошелька '{currency_code}'. Добавьте валюту: она создается автоматически при первой покупке."
@@ -446,7 +316,8 @@ class PortfolioUseCase:
         target_wallet.withdraw(amount)
         usd_wallet.deposit(revenue_in_usd)
         
-        self.portfolio_storage.save_portfolio(portfolio)
+        if not self.db_manager.save_portfolio(portfolio):
+            return False, "Ошибка сохранения портфеля"
         
         lines = [f"Продажа произведена: {amount:.4f} {currency_code} по курсу {rate:.8f} USD/{currency_code}"]
         lines.append("Изменения в кошельках:")

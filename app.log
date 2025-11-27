@@ -1,0 +1,38 @@
+2025-11-27 19:54:42,846 - valutetrade_hub.decorators - INFO - User None: Starting user_registration
+2025-11-27 19:54:42,850 - valutetrade_hub.decorators - INFO - User None: Completed user_registration in 0.00s
+2025-11-27 19:54:46,807 - valutetrade_hub.decorators - INFO - User None: Starting user_login
+2025-11-27 19:54:46,808 - valutetrade_hub.decorators - INFO - User None: Completed user_login in 0.00s
+2025-11-27 19:55:42,043 - valutetrade_hub.decorators - INFO - User None: Starting user_registration
+2025-11-27 19:55:42,045 - valutetrade_hub.decorators - INFO - User None: Completed user_registration in 0.00s
+2025-11-27 19:55:42,119 - valutetrade_hub.decorators - INFO - User None: Starting user_login
+2025-11-27 19:55:42,119 - valutetrade_hub.decorators - INFO - User None: Completed user_login in 0.00s
+2025-11-27 19:55:42,617 - valutetrade_hub.decorators - INFO - User None: Starting get_exchange_rate
+2025-11-27 19:55:42,618 - valutetrade_hub.decorators - INFO - User None: Completed get_exchange_rate in 0.00s
+2025-11-27 19:56:02,649 - valutetrade_hub.decorators - INFO - User None: Starting user_registration
+2025-11-27 19:56:02,650 - valutetrade_hub.decorators - INFO - User None: Completed user_registration in 0.00s
+2025-11-27 19:56:03,074 - valutetrade_hub.decorators - INFO - User None: Starting user_login
+2025-11-27 19:56:03,074 - valutetrade_hub.decorators - INFO - User None: Completed user_login in 0.00s
+2025-11-27 19:56:03,575 - valutetrade_hub.decorators - INFO - User 3: Starting buy_currency
+2025-11-27 19:56:03,576 - valutetrade_hub.decorators - INFO - User 3: Completed buy_currency in 0.00s
+2025-11-27 19:56:04,082 - valutetrade_hub.decorators - INFO - User 3: Starting buy_currency
+2025-11-27 19:56:04,085 - valutetrade_hub.decorators - INFO - User 3: Completed buy_currency in 0.00s
+2025-11-27 19:56:04,586 - valutetrade_hub.decorators - INFO - User 3: Starting get_portfolio_info
+2025-11-27 19:56:04,589 - valutetrade_hub.decorators - INFO - User 3: Completed get_portfolio_info in 0.00s
+2025-11-27 19:56:05,091 - valutetrade_hub.decorators - INFO - User 3: Starting sell_currency
+2025-11-27 19:56:05,093 - valutetrade_hub.decorators - INFO - User 3: Completed sell_currency in 0.00s
+2025-11-27 19:56:05,596 - valutetrade_hub.decorators - INFO - User 3: Starting get_portfolio_info
+2025-11-27 19:56:05,599 - valutetrade_hub.decorators - INFO - User 3: Completed get_portfolio_info in 0.00s
+2025-11-27 19:56:06,101 - valutetrade_hub.decorators - INFO - User None: Starting get_exchange_rate
+2025-11-27 19:56:06,102 - valutetrade_hub.decorators - INFO - User None: Completed get_exchange_rate in 0.00s
+2025-11-27 19:58:32,453 - valutetrade_hub.logging_config - INFO - User None: Starting user_registration
+2025-11-27 19:58:32,456 - valutetrade_hub.logging_config - INFO - User None: Completed user_registration in 0.00s
+2025-11-27 19:58:37,443 - valutetrade_hub.logging_config - INFO - User None: Starting user_login
+2025-11-27 19:58:37,443 - valutetrade_hub.logging_config - INFO - User None: Completed user_login in 0.00s
+2025-11-27 19:58:45,488 - valutetrade_hub.logging_config - INFO - User None: Starting get_exchange_rate
+2025-11-27 19:58:45,490 - valutetrade_hub.logging_config - INFO - User None: Completed get_exchange_rate in 0.00s
+2025-11-27 20:27:27,830 - valutetrade_hub.logging_config - INFO - User None: Starting user_registration
+2025-11-27 20:27:27,832 - valutetrade_hub.logging_config - INFO - User None: Completed user_registration in 0.00s
+2025-11-27 20:27:38,486 - valutetrade_hub.logging_config - INFO - User None: Starting user_login
+2025-11-27 20:27:38,487 - valutetrade_hub.logging_config - INFO - User None: Completed user_login in 0.00s
+2025-11-27 20:28:04,207 - valutetrade_hub.logging_config - INFO - User None: Starting get_exchange_rate
+2025-11-27 20:28:04,210 - valutetrade_hub.logging_config - INFO - User None: Completed get_exchange_rate in 0.00s

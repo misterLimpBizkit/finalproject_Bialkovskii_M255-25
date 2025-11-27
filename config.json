@@ -1,0 +1,5 @@
+{
+  "data_dir": "data",
+  "default_base_currency": "USD",
+  "supported_currencies": ["USD", "EUR", "BTC", "ETH"]
+}

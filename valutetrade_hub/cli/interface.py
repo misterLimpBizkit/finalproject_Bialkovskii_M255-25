@@ -1,7 +1,15 @@
+"""
+Command line interface for the currency trading system.
+This module provides a CLI for interacting with the currency trading system.
+"""
+
 import sys
 import argparse
 from typing import Optional
+
 from valutetrade_hub.core.usecases import UserUseCase, PortfolioUseCase, RateUseCase
+from valutetrade_hub.core.exceptions import InsufficientFundsError, CurrencyNotFoundError
+from valutetrade_hub.core.currencies import is_valid_currency
 
 
 class CLIInterface:
@@ -151,67 +159,128 @@ class CLIInterface:
     
     def _handle_register(self, args):
         """Handle register command"""
-        success, message = self.user_usecase.register_user(args.username, args.password)
-        print(message)
-        if not success:
-            pass
+        try:
+            success, message = self.user_usecase.register_user(args.username, args.password)
+            print(message)
+        except Exception as e:
+            print(f"Ошибка регистрации: {e}")
     
     def _handle_login(self, args):
         """Handle login command"""
-        success, message = self.user_usecase.login_user(args.username, args.password)
-        print(message)
-        if success:
-            users = self.user_usecase.user_storage.load_users()
-            if args.username in users:
-                user = users[args.username]
-                # Handle both User objects and dictionaries
-                if isinstance(user, dict):
-                    self.current_user_id = user['user_id']
-                else:
-                    self.current_user_id = user.user_id
+        try:
+            success, message = self.user_usecase.login_user(args.username, args.password)
+            print(message)
+            if success:
+                # Store user info for future commands
                 self.current_username = args.username
-        else:
-            pass
+                # We'll get the user_id when we need it by looking it up
+        except Exception as e:
+            print(f"Ошибка входа: {e}")
+    
+    def _get_current_user_id(self):
+        """Get current user ID from username"""
+        if not self.current_username:
+            return None
+        
+        users = self.user_usecase.db_manager.load_users()
+        user = users.get(self.current_username)
+        if user:
+            return user.user_id
+        return None
     
     def _handle_show_portfolio(self, args):
         """Handle show-portfolio command"""
-        if self.current_user_id is None:
+        if not self.current_username:
             print("Сначала выполните login")
             return
         
-        success, message = self.portfolio_usecase.get_portfolio_info(self.current_user_id, args.base)
-        print(message)
-        if not success:
-            pass
+        try:
+            user_id = self._get_current_user_id()
+            if user_id is None:
+                print("Ошибка: Не удалось получить информацию о пользователе")
+                return
+                
+            success, message = self.portfolio_usecase.get_portfolio_info(user_id, args.base)
+            print(message)
+        except CurrencyNotFoundError as e:
+            print(f"Ошибка: {e}")
+        except Exception as e:
+            print(f"Ошибка получения портфеля: {e}")
     
     def _handle_buy(self, args):
         """Handle buy command"""
-        if self.current_user_id is None:
+        if not self.current_username:
             print("Сначала выполните login")
             return
         
-        success, message = self.portfolio_usecase.buy_currency(self.current_user_id, args.currency.upper(), args.amount)
-        print(message)
-        if not success:
-            pass
+        try:
+            # Validate currency
+            if not is_valid_currency(args.currency):
+                print(f"Ошибка: Неподдерживаемая валюта '{args.currency}'")
+                return
+            
+            user_id = self._get_current_user_id()
+            if user_id is None:
+                print("Ошибка: Не удалось получить информацию о пользователе")
+                return
+                
+            success, message = self.portfolio_usecase.buy_currency(user_id, args.currency.upper(), args.amount)
+            print(message)
+        except InsufficientFundsError as e:
+            print(f"Ошибка: {e}")
+        except CurrencyNotFoundError as e:
+            print(f"Ошибка: {e}")
+        except ValueError as e:
+            print(f"Ошибка: {e}")
+        except Exception as e:
+            print(f"Ошибка покупки валюты: {e}")
     
     def _handle_sell(self, args):
         """Handle sell command"""
-        if self.current_user_id is None:
+        if not self.current_username:
             print("Сначала выполните login")
             return
         
-        success, message = self.portfolio_usecase.sell_currency(self.current_user_id, args.currency.upper(), args.amount)
-        print(message)
-        if not success:
-            pass
+        try:
+            # Validate currency
+            if not is_valid_currency(args.currency):
+                print(f"Ошибка: Неподдерживаемая валюта '{args.currency}'")
+                return
+            
+            user_id = self._get_current_user_id()
+            if user_id is None:
+                print("Ошибка: Не удалось получить информацию о пользователе")
+                return
+                
+            success, message = self.portfolio_usecase.sell_currency(user_id, args.currency.upper(), args.amount)
+            print(message)
+        except InsufficientFundsError as e:
+            print(f"Ошибка: {e}")
+        except CurrencyNotFoundError as e:
+            print(f"Ошибка: {e}")
+        except ValueError as e:
+            print(f"Ошибка: {e}")
+        except Exception as e:
+            print(f"Ошибка продажи валюты: {e}")
     
     def _handle_get_rate(self, args):
         """Handle get-rate command"""
-        success, message = self.rate_usecase.get_exchange_rate(args.from_currency.upper(), args.to_currency.upper())
-        print(message)
-        if not success:
-            pass
+        try:
+            # Validate currencies
+            if not is_valid_currency(args.from_currency):
+                print(f"Ошибка: Неподдерживаемая валюта '{args.from_currency}'")
+                return
+            
+            if not is_valid_currency(args.to_currency):
+                print(f"Ошибка: Неподдерживаемая валюта '{args.to_currency}'")
+                return
+            
+            success, message = self.rate_usecase.get_exchange_rate(args.from_currency.upper(), args.to_currency.upper())
+            print(message)
+        except CurrencyNotFoundError as e:
+            print(f"Ошибка: {e}")
+        except Exception as e:
+            print(f"Ошибка получения курса: {e}")
 
 
 def main():
