@@ -1,5 +1,4 @@
-def main():
-    print("Project is working!")
-    
+from valutetrade_hub.cli.interface import main
+
 if __name__ == "__main__":
     main()

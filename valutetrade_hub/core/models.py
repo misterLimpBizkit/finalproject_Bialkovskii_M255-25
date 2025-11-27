@@ -11,7 +11,18 @@ class User:
         self._username = username
         self._salt = secrets.token_hex(16)
         self._hashed_password = self._hash_password(password, self._salt)
-        self._registration_date = registration_date or datetime.now() 
+        self._registration_date = registration_date or datetime.now()
+    
+    @classmethod
+    def from_saved_data(cls, user_id: int, username: str, hashed_password: str, salt: str, registration_date: datetime):
+        """Create User object from saved data"""
+        user = cls.__new__(cls)
+        user._user_id = user_id
+        user._username = username
+        user._hashed_password = hashed_password
+        user._salt = salt
+        user._registration_date = registration_date
+        return user
         
     
     def _hash_password(self, password: str, salt: str) -> str:
@@ -36,7 +47,7 @@ class User:
     def verify_password(self, password: str) -> bool:
         '''Verify user password'''
         if len(password) < 4:
-            return False
+            return False, 'Пароль должен быть больше 4 символов'
         return self._hashed_password == self._hash_password(password, self._salt)
     
     @property
@@ -142,7 +153,7 @@ class Portfolio:
         self.add_currency('EUR')
     
     @property
-    def user(self) -> int:
+    def user_id(self) -> int:
         return self._user_id
     
     @property
@@ -171,3 +182,10 @@ class Portfolio:
             else:
                 raise ValueError(f"Неизвестный код валюты: {wallet.currency_code}")
         return total
+    
+    def get_portfolio_info(self):
+        '''Get portfolio info for saving'''
+        return {
+            'user_id': self._user_id,
+            'wallets': {code: wallet.balance for code, wallet in self._wallets.items()}
+        }

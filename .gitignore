@@ -6,3 +6,13 @@ dist
 .ruff_cache
 .DS_Store
 dist/
+data/
+portfolios.json
+users.json
+rates.json
+test_buy.py
+test_sell.py
+test_portfolio.py
+test_login.py
+test_register.py
+test_wallet_methods.py
