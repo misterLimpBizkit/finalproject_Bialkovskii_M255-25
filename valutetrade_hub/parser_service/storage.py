@@ -1,90 +1,120 @@
-import json
-import os
-from typing import Dict, Any, List
-from datetime import datetime
+import requests
+from abc import ABC, abstractmethod
+from typing import Dict
 from .config import ParserConfig
 
-class StorageManager:
-    """Manager for working with data files"""
+
+class ApiRequestError(Exception):
+    """Exception for API request errors"""
+    pass
+
+
+class BaseApiClient(ABC):
+    """Abstract base class for API clients"""
     
     def __init__(self, config: ParserConfig):
         self.config = config
     
-    def load_history(self) -> List[Dict[str, Any]]:
-        """Load exchange rate history from file"""
-        if not os.path.exists(self.config.HISTORY_FILE_PATH):
-            return []
-        
-        try:
-            with open(self.config.HISTORY_FILE_PATH, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-                return data if isinstance(data, list) else []
-        except (json.JSONDecodeError, IOError):
-            return []
-    
-    def save_history(self, records: List[Dict[str, Any]]) -> None:
-        """Save exchange rate history to file"""
-        os.makedirs(os.path.dirname(self.config.HISTORY_FILE_PATH), exist_ok=True)
-        
-        temp_path = self.config.HISTORY_FILE_PATH + '.tmp'
-        try:
-            with open(temp_path, 'w', encoding='utf-8') as f:
-                json.dump(records, f, indent=2, ensure_ascii=False)
-            os.replace(temp_path, self.config.HISTORY_FILE_PATH)
-        except Exception as e:
-            if os.path.exists(temp_path):
-                os.remove(temp_path)
-            raise e
-    
-    def load_cache(self) -> Dict[str, Any]:
-        """Load exchange rate cache from file"""
-        if not os.path.exists(self.config.RATES_FILE_PATH):
-            return {"pairs": {}, "last_refresh": None}
-        
-        try:
-            with open(self.config.RATES_FILE_PATH, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-                return data if isinstance(data, dict) else {"pairs": {}, "last_refresh": None}
-        except (json.JSONDecodeError, IOError):
-            return {"pairs": {}, "last_refresh": None}
-    
-    def save_cache(self, rates: Dict[str, Dict[str, Any]]) -> None:
-        """Save exchange rate cache to file"""
-        os.makedirs(os.path.dirname(self.config.RATES_FILE_PATH), exist_ok=True)
-        
-        cache_data = {
-            "pairs": rates,
-            "last_refresh": datetime.utcnow().isoformat() + "Z"
-        }
-        
-        temp_path = self.config.RATES_FILE_PATH + '.tmp'
-        try:
-            with open(temp_path, 'w', encoding='utf-8') as f:
-                json.dump(cache_data, f, indent=2, ensure_ascii=False)
-            os.replace(temp_path, self.config.RATES_FILE_PATH)
-        except Exception as e:
-            if os.path.exists(temp_path):
-                os.remove(temp_path)
-            raise e
-    
-    def add_history_record(self, from_currency: str, to_currency: str, rate: float, source: str, meta: Dict[str, Any] = None) -> None:
-        """Add record to exchange rate history"""
-        timestamp = datetime.utcnow().isoformat() + "Z"
-        record_id = f"{from_currency}_{to_currency}_{timestamp}"
-        
-        record = {
-            "id": record_id,
-            "from_currency": from_currency,
-            "to_currency": to_currency,
-            "rate": rate,
-            "timestamp": timestamp,
-            "source": source,
-            "meta": meta or {}
-        }
-        
-        history = self.load_history()
-        
-        history.append(record)
-        
-        self.save_history(history)
+    @abstractmethod
+    def fetch_rates(self) -> Dict[str, float]:
+        """Fetch currency rates from API"""
+        pass
 
+
+class CoinGeckoClient(BaseApiClient):
+    """Client for working with CoinGecko API"""
+    
+    def fetch_rates(self) -> Dict[str, float]:
+        """Get cryptocurrency rates from CoinGecko"""
+        try:
+            crypto_ids = [self.config.CRYPTO_ID_MAP[crypto] for crypto in self.config.CRYPTO_CURRENCIES]
+            
+            params = {
+                "ids": ",".join(crypto_ids),
+                "vs_currencies": self.config.BASE_CURRENCY.lower()
+            }
+            
+            response = requests.get(
+                self.config.COINGECKO_URL,
+                params=params,
+                timeout=self.config.REQUEST_TIMEOUT
+            )
+            
+            if response.status_code == 429:
+                raise ApiRequestError("CoinGecko API rate limit exceeded. Please try again later.")
+            elif response.status_code == 401:
+                raise ApiRequestError("CoinGecko API authentication failed.")
+            elif response.status_code == 403:
+                raise ApiRequestError("CoinGecko API access forbidden.")
+            elif response.status_code != 200:
+                raise ApiRequestError(f"CoinGecko API returned status {response.status_code}: {response.text[:100]}")
+            
+            data = response.json()
+            
+            rates = {}
+            for crypto_code in self.config.CRYPTO_CURRENCIES:
+                crypto_id = self.config.CRYPTO_ID_MAP[crypto_code]
+                if crypto_id in data and self.config.BASE_CURRENCY.lower() in data[crypto_id]:
+                    rate = data[crypto_id][self.config.BASE_CURRENCY.lower()]
+                    rates[f"{crypto_code}_{self.config.BASE_CURRENCY}"] = rate
+            
+            return rates
+            
+        except requests.exceptions.Timeout:
+            raise ApiRequestError(f"CoinGecko API request timed out after {self.config.REQUEST_TIMEOUT} seconds")
+        except requests.exceptions.ConnectionError:
+            raise ApiRequestError("Connection error to CoinGecko API. Check your internet connection.")
+        except requests.exceptions.RequestException as e:
+            raise ApiRequestError(f"Network error when requesting CoinGecko: {str(e)}")
+        except KeyError as e:
+            raise ApiRequestError(f"Error parsing data from CoinGecko: missing key {str(e)}")
+        except Exception as e:
+            raise ApiRequestError(f"Unexpected error when requesting CoinGecko: {str(e)}")
+
+
+class ExchangeRateApiClient(BaseApiClient):
+    """Client for working with ExchangeRate-API"""
+    
+    def fetch_rates(self) -> Dict[str, float]:
+        """Get fiat currency rates from ExchangeRate-API"""
+        try:
+            url = f"{self.config.EXCHANGERATE_API_URL}/{self.config.EXCHANGERATE_API_KEY}/latest/{self.config.BASE_CURRENCY}"
+            
+            response = requests.get(
+                url,
+                timeout=self.config.REQUEST_TIMEOUT
+            )
+            
+            if response.status_code == 429:
+                raise ApiRequestError("ExchangeRate-API rate limit exceeded. Please try again later.")
+            elif response.status_code == 401:
+                raise ApiRequestError("ExchangeRate-API authentication failed. Check your API key.")
+            elif response.status_code == 403:
+                raise ApiRequestError("ExchangeRate-API access forbidden. Check your API permissions.")
+            elif response.status_code != 200:
+                raise ApiRequestError(f"ExchangeRate-API returned status {response.status_code}: {response.text[:100]}")
+            
+            data = response.json()
+            
+            if data.get("result") != "success":
+                error_type = data.get("error-type", "unknown error")
+                raise ApiRequestError(f"ExchangeRate-API returned error: {error_type}")
+            
+            rates = {}
+            for currency in self.config.FIAT_CURRENCIES:
+                if currency in data.get("conversion_rates", {}):
+                    rate = data["conversion_rates"][currency]
+                    rates[f"{self.config.BASE_CURRENCY}_{currency}"] = rate
+            
+            return rates
+            
+        except requests.exceptions.Timeout:
+            raise ApiRequestError(f"ExchangeRate-API request timed out after {self.config.REQUEST_TIMEOUT} seconds")
+        except requests.exceptions.ConnectionError:
+            raise ApiRequestError("Connection error to ExchangeRate-API. Check your internet connection.")
+        except requests.exceptions.RequestException as e:
+            raise ApiRequestError(f"Network error when requesting ExchangeRate-API: {str(e)}")
+        except KeyError as e:
+            raise ApiRequestError(f"Error parsing data from ExchangeRate-API: missing key {str(e)}")
+        except Exception as e:
+            raise ApiRequestError(f"Unexpected error when requesting ExchangeRate-API: {str(e)}")

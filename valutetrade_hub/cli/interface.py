@@ -190,9 +190,7 @@ class CLIInterface:
             success, message = self.user_usecase.login_user(args.username, args.password)
             print(message)
             if success:
-                # Store user info for future commands
                 self.current_username = args.username
-                # We'll get the user_id when we need it by looking it up
         except Exception as e:
             print(f"Login error: {e}")
     
@@ -233,7 +231,6 @@ class CLIInterface:
             return
         
         try:
-            # Validate currency
             if not is_valid_currency(args.currency):
                 print(f"Error: Unsupported currency '{args.currency}'")
                 return
@@ -261,7 +258,6 @@ class CLIInterface:
             return
         
         try:
-            # Validate currency
             if not is_valid_currency(args.currency):
                 print(f"Error: Unsupported currency '{args.currency}'")
                 return
@@ -285,7 +281,6 @@ class CLIInterface:
     def _handle_get_rate(self, args):
         """Handle get-rate command"""
         try:
-            # Validate currencies
             if not is_valid_currency(args.from_currency):
                 print(f"Error: Unsupported currency '{args.from_currency}'")
                 return
@@ -317,18 +312,14 @@ class CLIInterface:
     def _handle_show_rates(self, args):
         """Handle show-rates command"""
         try:
-            # Get rate summary
             summary = self.rates_updater.get_rates_summary()
             
-            # Check if there is data
             if not summary["pairs"]:
                 print("Local rate cache is empty. Run 'update-rates' to load data.")
                 return
             
-            # Filter data by parameters
             filtered_pairs = summary["pairs"]
             
-            # Currency filter
             if args.currency:
                 filtered_pairs = {
                     pair: data for pair, data in summary["pairs"].items()
@@ -339,23 +330,17 @@ class CLIInterface:
                     print(f"Rate for '{args.currency.upper()}' not found in cache.")
                     return
             
-            # Sort for top-N
             if args.top:
-                # Sort by rate value (descending)
                 sorted_pairs = sorted(
                     filtered_pairs.items(),
                     key=lambda x: x[1]["rate"],
                     reverse=True
                 )
-                # Take only top-N
                 sorted_pairs = sorted_pairs[:args.top]
-                # Convert back to dictionary
                 filtered_pairs = dict(sorted_pairs)
             
-            # Display results
             print(f"Rates from cache (updated at {summary['last_refresh']}):")
             for pair, data in filtered_pairs.items():
-                # Check base currency
                 if args.base and f"_{args.base.upper()}_" not in f"_{pair}_":
                     continue
                 print(f"- {pair}: {data['rate']}")
