@@ -1,32 +1,8 @@
 {
-  "testuser": {
+  "test": {
     "user_id": 1,
-    "hashed_password": "372f3d8ef3c3d066ab0a0b9fa1fa11cfce82d4a4bbbb4dcf5ea059bb25324615",
-    "salt": "91a3c40b1c4151243219ab352f1b1daa",
-    "registration_date": "2025-11-27T19:54:42.847119"
-  },
-  "testuser2": {
-    "user_id": 2,
-    "hashed_password": "9a4baa1b00030038e2200a3a74870b2076be5f663dbc5b47221c813e01909703",
-    "salt": "24d13db83b63ab7f5a5c28a5b638cc8e",
-    "registration_date": "2025-11-27T19:55:42.043731"
-  },
-  "testuser3": {
-    "user_id": 3,
-    "hashed_password": "d3276425c0177757b3ecbb18a02a9992bc2c698a32670f5d9394e03485817826",
-    "salt": "2d8453b052f91c75dc50e61ece53ad65",
-    "registration_date": "2025-11-27T19:56:02.649672"
-  },
-  "testuser4": {
-    "user_id": 4,
-    "hashed_password": "185b39dc88ad91ca868d4624167ef21054d8c257f23f0ccb90aec779c3012432",
-    "salt": "1326c87b6b4bdefdfa070242be9cb0ec",
-    "registration_date": "2025-11-27T19:58:32.454011"
-  },
-  "testuser5": {
-    "user_id": 5,
-    "hashed_password": "1513574e2cdf703498f025b7f468ebab265443dc9542a8ed2baaa5a73825a9b6",
-    "salt": "86d5cfeb3a4ed08f8860ff8ee771ca41",
-    "registration_date": "2025-11-27T20:27:27.830839"
+    "hashed_password": "3c58a040ff1cbc4dfcd957e501ca87f3dc6ff0519852198be16f452efe981b54",
+    "salt": "8572533701dc97e94f23c87569f3ee03",
+    "registration_date": "2025-12-01T00:05:14.814214"
   }
 }

@@ -10,6 +10,7 @@ from typing import Optional
 from valutetrade_hub.core.usecases import UserUseCase, PortfolioUseCase, RateUseCase
 from valutetrade_hub.core.exceptions import InsufficientFundsError, CurrencyNotFoundError
 from valutetrade_hub.core.currencies import is_valid_currency
+from valutetrade_hub.parser_service.updater import RatesUpdater
 
 
 class CLIInterface:
@@ -19,6 +20,7 @@ class CLIInterface:
         self.user_usecase = UserUseCase()
         self.rate_usecase = RateUseCase()
         self.portfolio_usecase = PortfolioUseCase(self.rate_usecase)
+        self.rates_updater = RatesUpdater()
         self.current_user_id: Optional[int] = None
         self.current_username: Optional[str] = None
     
@@ -37,8 +39,8 @@ class CLIInterface:
     
     def _run_interactive(self):
         """Start the CLI in interactive mode"""
-        print("Добро пожаловать в систему управления валютным портфелем!")
-        print("Введите 'help' для получения списка команд или 'exit' для выхода.")
+        print("Welcome to the currency portfolio management system!")
+        print("Enter 'help' for a list of commands or 'exit' to quit.")
         
         while True:
             try:
@@ -54,7 +56,7 @@ class CLIInterface:
                     continue
                 
                 if user_input.lower() in ['exit', 'quit']:
-                    print("До свидания!")
+                    print("Goodbye!")
                     break
                 
                 if user_input.lower() in ['help', 'h']:
@@ -68,55 +70,66 @@ class CLIInterface:
                     parsed_args = parser.parse_args(command_args)
                     self._handle_command(parsed_args)
                 except SystemExit:
-                    # argparse вызывает SystemExit при ошибках, продолжаем работу
+                    # argparse calls SystemExit on errors, continue working
                     pass
                     
             except KeyboardInterrupt:
-                print("\nДо свидания!")
+                print("\nGoodbye!")
                 break
             except EOFError:
-                print("\nДо свидания!")
+                print("\nGoodbye!")
                 break
     
     def _create_parser(self):
         """Create parser for command line interface"""
-        parser = argparse.ArgumentParser(description='Система управления валютным портфелем', add_help=False)
-        subparsers = parser.add_subparsers(dest='command', help='Доступные команды')
+        parser = argparse.ArgumentParser(description='Currency portfolio management system', add_help=False)
+        subparsers = parser.add_subparsers(dest='command', help='Available commands')
         
-        # Команда регистрации
-        register_parser = subparsers.add_parser('register', help='Регистрация нового пользователя')
-        register_parser.add_argument('--username', required=True, help='Имя пользователя')
-        register_parser.add_argument('--password', required=True, help='Пароль')
+        # Registration command
+        register_parser = subparsers.add_parser('register', help='Register a new user')
+        register_parser.add_argument('--username', required=True, help='Username')
+        register_parser.add_argument('--password', required=True, help='Password')
         
-        # Команда входа
-        login_parser = subparsers.add_parser('login', help='Вход в систему')
-        login_parser.add_argument('--username', required=True, help='Имя пользователя')
-        login_parser.add_argument('--password', required=True, help='Пароль')
+        # Login command
+        login_parser = subparsers.add_parser('login', help='Login to the system')
+        login_parser.add_argument('--username', required=True, help='Username')
+        login_parser.add_argument('--password', required=True, help='Password')
         
-        # Команда просмотра портфеля
-        portfolio_parser = subparsers.add_parser('show-portfolio', help='Показать портфель')
-        portfolio_parser.add_argument('--base', default='USD', help='Базовая валюта (по умолчанию USD)')
+        # Portfolio view command
+        portfolio_parser = subparsers.add_parser('show-portfolio', help='Show portfolio')
+        portfolio_parser.add_argument('--base', default='USD', help='Base currency (default USD)')
         
-        # Команда покупки валюты
-        buy_parser = subparsers.add_parser('buy', help='Купить валюту')
-        buy_parser.add_argument('--currency', required=True, help='Код валюты')
-        buy_parser.add_argument('--amount', type=float, required=True, help='Количество валюты')
+        # Currency purchase command
+        buy_parser = subparsers.add_parser('buy', help='Buy currency')
+        buy_parser.add_argument('--currency', required=True, help='Currency code')
+        buy_parser.add_argument('--amount', type=float, required=True, help='Amount of currency')
         
-        # Команда продажи валюты
-        sell_parser = subparsers.add_parser('sell', help='Продать валюту')
-        sell_parser.add_argument('--currency', required=True, help='Код валюты')
-        sell_parser.add_argument('--amount', type=float, required=True, help='Количество валюты')
+        # Currency sale command
+        sell_parser = subparsers.add_parser('sell', help='Sell currency')
+        sell_parser.add_argument('--currency', required=True, help='Currency code')
+        sell_parser.add_argument('--amount', type=float, required=True, help='Amount of currency')
         
-        # Команда получения курса
-        rate_parser = subparsers.add_parser('get-rate', help='Получить курс валюты')
-        rate_parser.add_argument('--from', dest='from_currency', required=True, help='Исходная валюта')
-        rate_parser.add_argument('--to', dest='to_currency', required=True, help='Целевая валюта')
+        # Exchange rate command
+        rate_parser = subparsers.add_parser('get-rate', help='Get currency rate')
+        rate_parser.add_argument('--from', dest='from_currency', required=True, help='Source currency')
+        rate_parser.add_argument('--to', dest='to_currency', required=True, help='Target currency')
         
-        # Команда помощи
-        subparsers.add_parser('help', help='Показать помощь')
+        # Rate update command
+        update_rates_parser = subparsers.add_parser('update-rates', help='Update currency rates')
+        update_rates_parser.add_argument('--source', choices=['coingecko', 'exchangerate'],
+                                            help='Source for update (coingecko or exchangerate)')
         
-        # Команда выхода
-        subparsers.add_parser('exit', help='Выход из программы')
+        # Rate display command
+        show_rates_parser = subparsers.add_parser('show-rates', help='Show current rates')
+        show_rates_parser.add_argument('--currency', help='Show rate only for the specified currency')
+        show_rates_parser.add_argument('--top', type=int, help='Show top N most expensive cryptocurrencies')
+        show_rates_parser.add_argument('--base', default='USD', help='Base currency (default USD)')
+        
+        # Help command
+        subparsers.add_parser('help', help='Show help')
+        
+        # Exit command
+        subparsers.add_parser('exit', help='Exit the program')
         
         return parser
     
@@ -137,23 +150,29 @@ class CLIInterface:
         elif args.command == 'help':
             self._print_help()
         elif args.command == 'exit':
-            print("До свидания!")
+            print("Goodbye!")
             sys.exit(0)
+        elif args.command == 'update-rates':
+            self._handle_update_rates(args)
+        elif args.command == 'show-rates':
+            self._handle_show_rates(args)
         else:
             self._print_help()
     
     def _print_help(self):
         """Show help message"""
         help_text = """
-Доступные команды:
-  register --username USERNAME --password PASSWORD  Регистрация нового пользователя
-  login --username USERNAME --password PASSWORD     Вход в систему
-  show-portfolio [--base BASE]                     Показать портфель
-  buy --currency CURRENCY --amount AMOUNT             Купить валюту
-  sell --currency CURRENCY --amount AMOUNT           Продать валюту
-  get-rate --from FROM --to TO                      Получить курс валюты
-  help                                              Показать эту справку
-  exit                                              Выход из программы
+ Available commands:
+   register --username USERNAME --password PASSWORD  Register a new user
+   login --username USERNAME --password PASSWORD     Login to the system
+   show-portfolio [--base BASE]                     Show portfolio
+   buy --currency CURRENCY --amount AMOUNT             Buy currency
+   sell --currency CURRENCY --amount AMOUNT           Sell currency
+   get-rate --from FROM --to TO                      Get currency rate
+   update-rates [--source SOURCE]                   Update currency rates
+   show-rates [--currency CURRENCY] [--top N] [--base BASE]  Show current rates
+   help                                              Show this help
+   exit                                              Exit the program
         """
         print(help_text.strip())
     
@@ -163,7 +182,7 @@ class CLIInterface:
             success, message = self.user_usecase.register_user(args.username, args.password)
             print(message)
         except Exception as e:
-            print(f"Ошибка регистрации: {e}")
+            print(f"Registration error: {e}")
     
     def _handle_login(self, args):
         """Handle login command"""
@@ -175,7 +194,7 @@ class CLIInterface:
                 self.current_username = args.username
                 # We'll get the user_id when we need it by looking it up
         except Exception as e:
-            print(f"Ошибка входа: {e}")
+            print(f"Login error: {e}")
     
     def _get_current_user_id(self):
         """Get current user ID from username"""
@@ -191,103 +210,165 @@ class CLIInterface:
     def _handle_show_portfolio(self, args):
         """Handle show-portfolio command"""
         if not self.current_username:
-            print("Сначала выполните login")
+            print("Please login first")
             return
         
         try:
             user_id = self._get_current_user_id()
             if user_id is None:
-                print("Ошибка: Не удалось получить информацию о пользователе")
+                print("Error: Failed to get user information")
                 return
                 
             success, message = self.portfolio_usecase.get_portfolio_info(user_id, args.base)
             print(message)
         except CurrencyNotFoundError as e:
-            print(f"Ошибка: {e}")
+            print(f"Error: {e}")
         except Exception as e:
-            print(f"Ошибка получения портфеля: {e}")
+            print(f"Error getting portfolio: {e}")
     
     def _handle_buy(self, args):
         """Handle buy command"""
         if not self.current_username:
-            print("Сначала выполните login")
+            print("Please login first")
             return
         
         try:
             # Validate currency
             if not is_valid_currency(args.currency):
-                print(f"Ошибка: Неподдерживаемая валюта '{args.currency}'")
+                print(f"Error: Unsupported currency '{args.currency}'")
                 return
             
             user_id = self._get_current_user_id()
             if user_id is None:
-                print("Ошибка: Не удалось получить информацию о пользователе")
+                print("Error: Failed to get user information")
                 return
                 
             success, message = self.portfolio_usecase.buy_currency(user_id, args.currency.upper(), args.amount)
             print(message)
         except InsufficientFundsError as e:
-            print(f"Ошибка: {e}")
+            print(f"Error: {e}")
         except CurrencyNotFoundError as e:
-            print(f"Ошибка: {e}")
+            print(f"Error: {e}")
         except ValueError as e:
-            print(f"Ошибка: {e}")
+            print(f"Error: {e}")
         except Exception as e:
-            print(f"Ошибка покупки валюты: {e}")
+            print(f"Error buying currency: {e}")
     
     def _handle_sell(self, args):
         """Handle sell command"""
         if not self.current_username:
-            print("Сначала выполните login")
+            print("Please login first")
             return
         
         try:
             # Validate currency
             if not is_valid_currency(args.currency):
-                print(f"Ошибка: Неподдерживаемая валюта '{args.currency}'")
+                print(f"Error: Unsupported currency '{args.currency}'")
                 return
             
             user_id = self._get_current_user_id()
             if user_id is None:
-                print("Ошибка: Не удалось получить информацию о пользователе")
+                print("Error: Failed to get user information")
                 return
                 
             success, message = self.portfolio_usecase.sell_currency(user_id, args.currency.upper(), args.amount)
             print(message)
         except InsufficientFundsError as e:
-            print(f"Ошибка: {e}")
+            print(f"Error: {e}")
         except CurrencyNotFoundError as e:
-            print(f"Ошибка: {e}")
+            print(f"Error: {e}")
         except ValueError as e:
-            print(f"Ошибка: {e}")
+            print(f"Error: {e}")
         except Exception as e:
-            print(f"Ошибка продажи валюты: {e}")
+            print(f"Error selling currency: {e}")
     
     def _handle_get_rate(self, args):
         """Handle get-rate command"""
         try:
             # Validate currencies
             if not is_valid_currency(args.from_currency):
-                print(f"Ошибка: Неподдерживаемая валюта '{args.from_currency}'")
+                print(f"Error: Unsupported currency '{args.from_currency}'")
                 return
             
             if not is_valid_currency(args.to_currency):
-                print(f"Ошибка: Неподдерживаемая валюта '{args.to_currency}'")
+                print(f"Error: Unsupported currency '{args.to_currency}'")
                 return
             
             success, message = self.rate_usecase.get_exchange_rate(args.from_currency.upper(), args.to_currency.upper())
             print(message)
         except CurrencyNotFoundError as e:
-            print(f"Ошибка: {e}")
+            print(f"Error: {e}")
         except Exception as e:
-            print(f"Ошибка получения курса: {e}")
-
-
+            print(f"Error getting rate: {e}")
+    
+    def _handle_update_rates(self, args):
+        """Handle update-rates command"""
+        try:
+            print("INFO: Starting rates update...")
+            result = self.rates_updater.run_update(source=args.source)
+            
+            if result["errors"]:
+                print("Update completed with errors. Check logs for details.")
+            else:
+                print(f"Update successful. Total rates updated: {result['updated_count']}. Last refresh: {result['last_refresh']}")
+        except Exception as e:
+            print(f"Error updating rates: {e}")
+    
+    def _handle_show_rates(self, args):
+        """Handle show-rates command"""
+        try:
+            # Get rate summary
+            summary = self.rates_updater.get_rates_summary()
+            
+            # Check if there is data
+            if not summary["pairs"]:
+                print("Local rate cache is empty. Run 'update-rates' to load data.")
+                return
+            
+            # Filter data by parameters
+            filtered_pairs = summary["pairs"]
+            
+            # Currency filter
+            if args.currency:
+                filtered_pairs = {
+                    pair: data for pair, data in summary["pairs"].items()
+                    if args.currency.upper() in pair
+                }
+                
+                if not filtered_pairs:
+                    print(f"Rate for '{args.currency.upper()}' not found in cache.")
+                    return
+            
+            # Sort for top-N
+            if args.top:
+                # Sort by rate value (descending)
+                sorted_pairs = sorted(
+                    filtered_pairs.items(),
+                    key=lambda x: x[1]["rate"],
+                    reverse=True
+                )
+                # Take only top-N
+                sorted_pairs = sorted_pairs[:args.top]
+                # Convert back to dictionary
+                filtered_pairs = dict(sorted_pairs)
+            
+            # Display results
+            print(f"Rates from cache (updated at {summary['last_refresh']}):")
+            for pair, data in filtered_pairs.items():
+                # Check base currency
+                if args.base and f"_{args.base.upper()}_" not in f"_{pair}_":
+                    continue
+                print(f"- {pair}: {data['rate']}")
+                
+        except Exception as e:
+            print(f"Error getting rates: {e}")
 def main():
-    """Точка входа в CLI"""
+    """CLI entry point"""
     import sys
     cli = CLIInterface()
     cli.run(sys.argv[1:])
+
+
 
 
 if __name__ == '__main__':

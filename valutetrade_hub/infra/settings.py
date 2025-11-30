@@ -5,7 +5,7 @@ This module implements the Singleton pattern for application settings.
 
 import json
 import os
-from typing import Dict, Any, Optional
+from typing import Any
 
 
 class SettingsLoader:
@@ -33,7 +33,7 @@ class SettingsLoader:
                 with open(self.config_file, 'r', encoding='utf-8') as f:
                     self._settings = json.load(f)
             except (json.JSONDecodeError, IOError) as e:
-                print(f"Ошибка загрузки настроек: {e}")
+                print(f"Error loading settings: {e}")
                 self._settings = {}
         else:
             self._settings = {
@@ -56,7 +56,7 @@ class SettingsLoader:
             with open(self.config_file, 'w', encoding='utf-8') as f:
                 json.dump(self._settings, f, ensure_ascii=False, indent=2)
         except IOError as e:
-            print(f"Ошибка сохранения настроек: {e}")
+            print(f"Error saving settings: {e}")
     
     @property
     def data_dir(self) -> str:

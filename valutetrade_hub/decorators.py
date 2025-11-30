@@ -15,7 +15,7 @@ def log_action(action_name: str):
     Decorator for logging user actions.
     
     Args:
-        action_name: Name of the action being performed
+        action_name (str): Name of the action being performed
     """
     def decorator(func: Callable) -> Callable:
         @functools.wraps(func)

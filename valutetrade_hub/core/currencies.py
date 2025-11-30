@@ -34,8 +34,8 @@ class Currency(ABC):
     def get_info(self) -> Dict[str, Any]:
         """Get currency information"""
         return {
-            'code' : self.code,
-            'name' : self.name 
+            'code': self.code,
+            'name': self.name
             }
         
 
@@ -86,12 +86,14 @@ class CryptoCurrency(Currency):
 
 USD = FiatCurrency("USD", "US Dollar", "United States")
 EUR = FiatCurrency("EUR", "Euro", "European Union")
+RUB = FiatCurrency("RUB", "Russian Ruble", "Russia")
 BTC = CryptoCurrency("BTC", "Bitcoin", "SHA-256")
 ETH = CryptoCurrency("ETH", "Ethereum", "Ethash")
 
 CURRENCY_REGISTRY = {
     "USD": USD,
     "EUR": EUR,
+    "RUB": RUB,
     "BTC": BTC,
     "ETH": ETH
 }

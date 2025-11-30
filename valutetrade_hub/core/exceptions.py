@@ -10,15 +10,15 @@ class InsufficientFundsError(Exception):
         self.currency = currency
         self.available = available
         self.required = required
-        super().__init__(f"Недостаточно средств в {currency}: доступно {available:.4f}, необходимо {required:.4f}")
+        super().__init__(f"Insufficient funds in {currency}: available {available:.4f}, required {required:.4f}")
 
 
 class CurrencyNotFoundError(Exception):
     """Raised when a currency is not found"""
-    
     def __init__(self, currency_code: str):
         self.currency_code = currency_code
-        super().__init__(f"Валюта '{currency_code}' не найдена")
+        super().__init__(f"Currency '{currency_code}' not found")
+
 
 
 class ApiRequestError(Exception):

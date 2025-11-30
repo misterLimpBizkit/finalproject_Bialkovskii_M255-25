@@ -5,13 +5,12 @@ This module implements a Singleton DatabaseManager that abstracts the JSON stora
 
 import json
 import os
-from typing import Dict, Any, Optional
+from typing import Dict, Optional
 from datetime import datetime
 
 from valutetrade_hub.infra.settings import settings
 from valutetrade_hub.core.models import User, Portfolio
 from valutetrade_hub.logging_config import logger
-
 
 class DatabaseManager:
     """Singleton database manager for JSON storage"""
@@ -137,6 +136,7 @@ class DatabaseManager:
             return 1.0
         
         pair_key = f"{from_currency}_{to_currency}"
+        reverse_pair_key = f"{to_currency}_{from_currency}"
         
         if not os.path.exists(self.rates_file):
             return None
@@ -147,9 +147,34 @@ class DatabaseManager:
         except (json.JSONDecodeError, FileNotFoundError):
             return None
         
+        # Check new format in "pairs" field
+        pairs = data.get("pairs", {})
+        
+        # Direct rate
+        if pair_key in pairs:
+            rate_data = pairs.get(pair_key)
+            if rate_data and "rate" in rate_data:
+                return rate_data.get("rate")
+        
+        # Reverse rate (if USD_RUB exists, then RUB_USD = 1/USD_RUB)
+        if reverse_pair_key in pairs:
+            rate_data = pairs.get(reverse_pair_key)
+            if rate_data and "rate" in rate_data:
+                reverse_rate = rate_data.get("rate")
+                if reverse_rate != 0:
+                    return 1.0 / reverse_rate
+        
+        # Check old format (direct key access)
         rate_data = data.get(pair_key)
-        if rate_data:
-            return rate_data.get('rate')
+        if rate_data and isinstance(rate_data, dict) and "rate" in rate_data:
+            return rate_data.get("rate")
+        
+        # Reverse rate in old format
+        rate_data = data.get(reverse_pair_key)
+        if rate_data and isinstance(rate_data, dict) and "rate" in rate_data:
+            reverse_rate = rate_data.get("rate")
+            if reverse_rate != 0:
+                return 1.0 / reverse_rate
         
         return None
     
@@ -181,5 +206,6 @@ class DatabaseManager:
         except Exception as e:
             logger.error(f"Failed to update rate {from_currency}->{to_currency}: {e}")
             return False
+
 
 db_manager = DatabaseManager()

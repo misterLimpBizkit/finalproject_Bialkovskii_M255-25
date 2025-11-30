@@ -2,7 +2,13 @@ install:
 	poetry install
 
 project:
-	poetry run project
+	poetry run valutetrade
+
+update-rates:
+	poetry run valutetrade update-rates
+
+show-rates:
+	poetry run valutetrade show-rates
 
 build:
 	poetry build
