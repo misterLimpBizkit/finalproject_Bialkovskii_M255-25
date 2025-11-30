@@ -108,7 +108,7 @@ class RateUseCase:
         fixed_rates = {
             'USD': 1.0,
             'EUR': 1.18,
-            'BTC': 40000.0,
+            'BTC': 91000.0,
             'ETH': 2000.0,
         }
         
@@ -146,9 +146,6 @@ class RateUseCase:
         if rate is None:
             return False, 0.0
         
-        # Save the calculated rate in storage for future use
-        self.db_manager.update_rate(from_currency, to_currency, rate)
-        
         return True, rate
 
 
@@ -182,7 +179,7 @@ class PortfolioUseCase:
                 fixed_rates = {
                     'USD': 1.0,
                     'EUR': 1.18,
-                    'BTC': 40000.0,
+                    'BTC': 91000.0,
                     'ETH': 2000.0,
                 }
                 
@@ -195,6 +192,9 @@ class PortfolioUseCase:
                     rate = from_rate_to_usd / to_rate_to_usd
                 else:
                     rate = 1.0 if currency_code == base_currency else 0.0
+            else:
+                # Save the calculated rate in storage for future use
+                self.db_manager.update_rate(currency_code, base_currency, rate)
             
             value = wallet.balance * rate
             total_value += value
@@ -208,6 +208,7 @@ class PortfolioUseCase:
     @log_action("buy_currency")
     def buy_currency(self, user_id: int, currency_code: str, amount: float) -> tuple[bool, str]:
         """Buy currency using USD from the USD wallet"""
+        
         if amount <= 0:
             return False, "Amount must be a positive number"
         
@@ -253,10 +254,13 @@ class PortfolioUseCase:
             fixed_rates = {
                 'USD': 1.0,
                 'EUR': 1.18,
-                'BTC': 40000.0,
+                'BTC': 91000.0,
                 'ETH': 2000.0,
             }
             rate = fixed_rates.get(currency_code, 1.0)
+        else:
+            # Save the calculated rate in storage for future use
+            self.db_manager.update_rate(currency_code, "USD", rate)
         
         cost_in_usd = amount * rate
         if usd_wallet.balance < cost_in_usd:
@@ -282,6 +286,7 @@ class PortfolioUseCase:
     @log_action("sell_currency")
     def sell_currency(self, user_id: int, currency_code: str, amount: float) -> tuple[bool, str]:
         """Sell currency and deposit equivalent USD to the USD wallet"""
+        
         if amount <= 0:
             return False, "Amount must be a positive number"
         
@@ -313,10 +318,13 @@ class PortfolioUseCase:
             fixed_rates = {
                 'USD': 1.0,
                 'EUR': 1.18,
-                'BTC': 40000.0,
+                'BTC': 91000.0,
                 'ETH': 2000.0,
             }
             rate = fixed_rates.get(currency_code, 1.0)
+        else:
+            # Save the calculated rate in storage for future use
+            self.db_manager.update_rate(currency_code, "USD", rate)
         
         revenue_in_usd = amount * rate
         

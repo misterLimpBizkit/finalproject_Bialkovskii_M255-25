@@ -365,6 +365,8 @@ class CLIInterface:
 def main():
     """CLI entry point"""
     import sys
+    result = RatesUpdater()
+    result.run_update()
     cli = CLIInterface()
     cli.run(sys.argv[1:])
 

@@ -20,7 +20,6 @@ class Scheduler:
         Args:
             interval_minutes (int): Update interval in minutes (default 60)
         """
-        # Schedule rate updates every interval_minutes minutes
         schedule.every(interval_minutes).minutes.do(self._run_update)
         
         self.logger.info(f"Scheduled rates updates every {interval_minutes} minutes")
@@ -32,7 +31,6 @@ class Scheduler:
         Args:
             time_str (str): Update time in "HH:MM" format (default "00:00")
         """
-        # Schedule daily rate updates
         schedule.every().day.at(time_str).do(self._run_update)
         
         self.logger.info(f"Scheduled daily rates updates at {time_str}")

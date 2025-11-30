@@ -45,3 +45,268 @@
 2025-12-01 00:11:12,731 - valutetrade_hub.logging_config - INFO - User 1: Completed buy_currency in 0.00s
 2025-12-01 00:14:23,257 - valutetrade_hub.logging_config - INFO - User 1: Starting buy_currency
 2025-12-01 00:14:23,260 - valutetrade_hub.logging_config - INFO - User 1: Completed buy_currency in 0.00s
+2025-12-01 00:20:24,976 - valutetrade_hub.logging_config - INFO - User None: Starting user_login
+2025-12-01 00:20:24,977 - valutetrade_hub.logging_config - INFO - User None: Completed user_login in 0.00s
+2025-12-01 00:20:41,536 - valutetrade_hub.logging_config - INFO - User 1: Starting buy_currency
+2025-12-01 00:20:41,540 - valutetrade_hub.logging_config - INFO - User 1: Completed buy_currency in 0.00s
+2025-12-01 00:22:58,131 - valutetrade_hub.parser_service.updater - INFO - Starting rates update...
+2025-12-01 00:22:58,131 - valutetrade_hub.parser_service.updater - INFO - Fetching from coingecko...
+2025-12-01 00:22:59,512 - valutetrade_hub.parser_service.updater - INFO - Fetching from coingecko... OK (3 rates)
+2025-12-01 00:22:59,513 - valutetrade_hub.parser_service.updater - INFO - Fetching from exchangerate...
+2025-12-01 00:23:00,159 - valutetrade_hub.parser_service.updater - INFO - Fetching from exchangerate... OK (3 rates)
+2025-12-01 00:23:00,159 - valutetrade_hub.parser_service.updater - INFO - Update successful. Total rates updated: 6. Last refresh: 2025-11-30T21:23:00.159600Z
+2025-12-01 00:23:13,004 - valutetrade_hub.logging_config - INFO - User None: Starting user_login
+2025-12-01 00:23:13,004 - valutetrade_hub.logging_config - INFO - User None: Completed user_login in 0.00s
+2025-12-01 00:23:18,436 - valutetrade_hub.logging_config - INFO - User None: Starting user_registration
+2025-12-01 00:23:18,437 - valutetrade_hub.logging_config - INFO - User None: Completed user_registration in 0.00s
+2025-12-01 00:23:22,172 - valutetrade_hub.logging_config - INFO - User None: Starting user_login
+2025-12-01 00:23:22,172 - valutetrade_hub.logging_config - INFO - User None: Completed user_login in 0.00s
+2025-12-01 00:23:25,536 - valutetrade_hub.logging_config - INFO - User None: Starting user_registration
+2025-12-01 00:23:25,538 - valutetrade_hub.logging_config - INFO - User None: Completed user_registration in 0.00s
+2025-12-01 00:23:29,812 - valutetrade_hub.logging_config - INFO - User None: Starting user_login
+2025-12-01 00:23:29,813 - valutetrade_hub.logging_config - INFO - User None: Completed user_login in 0.00s
+2025-12-01 00:24:09,320 - valutetrade_hub.logging_config - INFO - User None: Starting user_login
+2025-12-01 00:24:09,320 - valutetrade_hub.logging_config - INFO - User None: Completed user_login in 0.00s
+2025-12-01 00:24:09,320 - valutetrade_hub.logging_config - INFO - User 2: Starting get_portfolio_info
+2025-12-01 00:24:09,321 - valutetrade_hub.logging_config - INFO - User 2: Completed get_portfolio_info in 0.00s
+2025-12-01 00:24:09,321 - valutetrade_hub.logging_config - INFO - User 2: Starting buy_currency
+2025-12-01 00:24:09,322 - valutetrade_hub.logging_config - INFO - User 2: Completed buy_currency in 0.00s
+2025-12-01 00:24:09,322 - valutetrade_hub.logging_config - INFO - User 2: Starting get_portfolio_info
+2025-12-01 00:24:09,323 - valutetrade_hub.logging_config - INFO - User 2: Completed get_portfolio_info in 0.00s
+2025-12-01 00:24:32,631 - valutetrade_hub.logging_config - INFO - User None: Starting user_login
+2025-12-01 00:24:32,631 - valutetrade_hub.logging_config - INFO - User None: Completed user_login in 0.00s
+2025-12-01 00:24:32,632 - valutetrade_hub.logging_config - INFO - User 2: Starting get_portfolio_info
+2025-12-01 00:24:32,633 - valutetrade_hub.logging_config - INFO - User 2: Completed get_portfolio_info in 0.00s
+2025-12-01 00:24:32,633 - valutetrade_hub.logging_config - INFO - User 2: Starting buy_currency
+2025-12-01 00:24:32,634 - valutetrade_hub.logging_config - INFO - User 2: Completed buy_currency in 0.00s
+2025-12-01 00:24:32,634 - valutetrade_hub.logging_config - INFO - User 2: Starting get_portfolio_info
+2025-12-01 00:24:32,634 - valutetrade_hub.logging_config - INFO - User 2: Completed get_portfolio_info in 0.00s
+2025-12-01 00:24:32,635 - valutetrade_hub.logging_config - INFO - User 2: Starting buy_currency
+2025-12-01 00:24:32,635 - valutetrade_hub.logging_config - INFO - User 2: Completed buy_currency in 0.00s
+2025-12-01 00:24:32,635 - valutetrade_hub.logging_config - INFO - User 2: Starting get_portfolio_info
+2025-12-01 00:24:32,635 - valutetrade_hub.logging_config - INFO - User 2: Completed get_portfolio_info in 0.00s
+2025-12-01 00:26:00,294 - valutetrade_hub.logging_config - INFO - User None: Starting user_login
+2025-12-01 00:26:00,295 - valutetrade_hub.logging_config - INFO - User None: Completed user_login in 0.00s
+2025-12-01 00:26:00,295 - valutetrade_hub.logging_config - INFO - User 2: Starting get_portfolio_info
+2025-12-01 00:26:00,296 - valutetrade_hub.logging_config - INFO - User 2: Completed get_portfolio_info in 0.00s
+2025-12-01 00:26:00,296 - valutetrade_hub.logging_config - INFO - User 2: Starting buy_currency
+2025-12-01 00:26:00,296 - valutetrade_hub.logging_config - INFO - User 2: Completed buy_currency in 0.00s
+2025-12-01 00:26:00,296 - valutetrade_hub.logging_config - INFO - User 2: Starting get_portfolio_info
+2025-12-01 00:26:00,297 - valutetrade_hub.logging_config - INFO - User 2: Completed get_portfolio_info in 0.00s
+2025-12-01 00:26:00,297 - valutetrade_hub.logging_config - INFO - User 2: Starting buy_currency
+2025-12-01 00:26:00,297 - valutetrade_hub.logging_config - INFO - User 2: Completed buy_currency in 0.00s
+2025-12-01 00:26:00,297 - valutetrade_hub.logging_config - INFO - User 2: Starting get_portfolio_info
+2025-12-01 00:26:00,297 - valutetrade_hub.logging_config - INFO - User 2: Completed get_portfolio_info in 0.00s
+2025-12-01 00:27:21,749 - valutetrade_hub.logging_config - INFO - User None: Starting user_registration
+2025-12-01 00:27:21,751 - valutetrade_hub.logging_config - WARNING - Failed to load users from file
+2025-12-01 00:27:21,754 - valutetrade_hub.logging_config - INFO - User None: Completed user_registration in 0.01s
+2025-12-01 00:27:36,457 - valutetrade_hub.logging_config - INFO - User None: Starting user_login
+2025-12-01 00:27:36,459 - valutetrade_hub.logging_config - INFO - User None: Completed user_login in 0.00s
+2025-12-01 00:27:44,496 - valutetrade_hub.logging_config - INFO - User 1: Starting get_portfolio_info
+2025-12-01 00:27:44,499 - valutetrade_hub.logging_config - INFO - User 1: Completed get_portfolio_info in 0.00s
+2025-12-01 00:27:58,631 - valutetrade_hub.logging_config - INFO - User 1: Starting buy_currency
+2025-12-01 00:27:58,633 - valutetrade_hub.logging_config - INFO - User 1: Completed buy_currency in 0.00s
+2025-12-01 00:28:05,267 - valutetrade_hub.logging_config - INFO - User 1: Starting get_portfolio_info
+2025-12-01 00:28:05,269 - valutetrade_hub.logging_config - INFO - User 1: Completed get_portfolio_info in 0.00s
+2025-12-01 00:28:28,116 - valutetrade_hub.logging_config - INFO - User None: Starting get_exchange_rate
+2025-12-01 00:28:28,118 - valutetrade_hub.logging_config - INFO - User None: Completed get_exchange_rate in 0.00s
+2025-12-01 00:28:42,225 - valutetrade_hub.logging_config - INFO - User None: Starting get_exchange_rate
+2025-12-01 00:28:42,229 - valutetrade_hub.logging_config - INFO - User None: Completed get_exchange_rate in 0.00s
+2025-12-01 00:30:01,886 - valutetrade_hub.logging_config - INFO - User None: Starting get_exchange_rate
+2025-12-01 00:30:01,886 - valutetrade_hub.logging_config - INFO - User None: Completed get_exchange_rate in 0.00s
+2025-12-01 00:33:40,233 - valutetrade_hub.parser_service.updater - INFO - Starting rates update...
+2025-12-01 00:33:40,233 - valutetrade_hub.parser_service.updater - INFO - Fetching from coingecko...
+2025-12-01 00:33:41,050 - valutetrade_hub.parser_service.updater - INFO - Fetching from coingecko... OK (3 rates)
+2025-12-01 00:33:41,050 - valutetrade_hub.parser_service.updater - INFO - Fetching from exchangerate...
+2025-12-01 00:33:42,404 - valutetrade_hub.parser_service.updater - INFO - Fetching from exchangerate... OK (3 rates)
+2025-12-01 00:33:42,405 - valutetrade_hub.parser_service.updater - INFO - Update successful. Total rates updated: 6. Last refresh: 2025-11-30T21:33:42.404601Z
+2025-12-01 00:34:07,941 - valutetrade_hub.logging_config - INFO - User None: Starting get_exchange_rate
+2025-12-01 00:34:07,942 - valutetrade_hub.logging_config - INFO - User None: Completed get_exchange_rate in 0.00s
+2025-12-01 00:34:37,912 - valutetrade_hub.logging_config - INFO - User None: Starting user_login
+2025-12-01 00:34:37,912 - valutetrade_hub.logging_config - WARNING - Failed to load users from file
+2025-12-01 00:34:37,912 - valutetrade_hub.logging_config - INFO - User None: Completed user_login in 0.00s
+2025-12-01 00:34:44,276 - valutetrade_hub.logging_config - INFO - User None: Starting user_registration
+2025-12-01 00:34:44,276 - valutetrade_hub.logging_config - WARNING - Failed to load users from file
+2025-12-01 00:34:44,277 - valutetrade_hub.logging_config - INFO - User None: Completed user_registration in 0.00s
+2025-12-01 00:34:48,635 - valutetrade_hub.logging_config - INFO - User None: Starting user_login
+2025-12-01 00:34:48,636 - valutetrade_hub.logging_config - INFO - User None: Completed user_login in 0.00s
+2025-12-01 00:36:49,096 - valutetrade_hub.logging_config - INFO - User None: Starting user_login
+2025-12-01 00:36:49,098 - valutetrade_hub.logging_config - INFO - User None: Completed user_login in 0.00s
+2025-12-01 00:37:01,114 - valutetrade_hub.logging_config - INFO - User None: Starting get_exchange_rate
+2025-12-01 00:37:01,119 - valutetrade_hub.logging_config - INFO - User None: Completed get_exchange_rate in 0.00s
+2025-12-01 00:37:28,663 - valutetrade_hub.logging_config - INFO - User None: Starting user_login
+2025-12-01 00:37:28,665 - valutetrade_hub.logging_config - INFO - User None: Completed user_login in 0.00s
+2025-12-01 00:42:31,047 - valutetrade_hub.logging_config - INFO - User None: Starting user_registration
+2025-12-01 00:42:31,050 - valutetrade_hub.logging_config - INFO - User None: Completed user_registration in 0.00s
+2025-12-01 00:42:33,808 - valutetrade_hub.logging_config - INFO - User None: Starting user_login
+2025-12-01 00:42:33,809 - valutetrade_hub.logging_config - INFO - User None: Completed user_login in 0.00s
+2025-12-01 00:42:56,198 - valutetrade_hub.logging_config - INFO - User None: Starting user_login
+2025-12-01 00:42:56,199 - valutetrade_hub.logging_config - INFO - User None: Completed user_login in 0.00s
+2025-12-01 00:42:59,878 - valutetrade_hub.logging_config - INFO - User None: Starting user_login
+2025-12-01 00:42:59,878 - valutetrade_hub.logging_config - INFO - User None: Completed user_login in 0.00s
+2025-12-01 00:42:59,879 - valutetrade_hub.logging_config - INFO - User 2: Starting buy_currency
+2025-12-01 00:42:59,880 - valutetrade_hub.logging_config - INFO - User 2: Completed buy_currency in 0.00s
+2025-12-01 00:43:08,574 - valutetrade_hub.logging_config - INFO - User None: Starting user_login
+2025-12-01 00:43:08,574 - valutetrade_hub.logging_config - INFO - User None: Completed user_login in 0.00s
+2025-12-01 00:43:08,575 - valutetrade_hub.logging_config - INFO - User 2: Starting get_portfolio_info
+2025-12-01 00:43:08,577 - valutetrade_hub.logging_config - INFO - User 2: Completed get_portfolio_info in 0.00s
+2025-12-01 00:43:13,590 - valutetrade_hub.logging_config - INFO - User None: Starting user_login
+2025-12-01 00:43:13,591 - valutetrade_hub.logging_config - INFO - User None: Completed user_login in 0.00s
+2025-12-01 00:43:13,592 - valutetrade_hub.logging_config - INFO - User 2: Starting buy_currency
+2025-12-01 00:43:13,593 - valutetrade_hub.logging_config - INFO - User 2: Completed buy_currency in 0.00s
+2025-12-01 00:43:19,370 - valutetrade_hub.logging_config - INFO - User None: Starting user_login
+2025-12-01 00:43:19,370 - valutetrade_hub.logging_config - INFO - User None: Completed user_login in 0.00s
+2025-12-01 00:43:19,371 - valutetrade_hub.logging_config - INFO - User 2: Starting buy_currency
+2025-12-01 00:43:19,371 - valutetrade_hub.logging_config - INFO - User 2: Completed buy_currency in 0.00s
+2025-12-01 00:44:20,272 - valutetrade_hub.logging_config - INFO - User None: Starting user_registration
+2025-12-01 00:44:20,274 - valutetrade_hub.logging_config - WARNING - Failed to load users from file
+2025-12-01 00:44:20,275 - valutetrade_hub.logging_config - INFO - User None: Completed user_registration in 0.00s
+2025-12-01 00:44:32,944 - valutetrade_hub.logging_config - INFO - User None: Starting user_login
+2025-12-01 00:44:32,946 - valutetrade_hub.logging_config - INFO - User None: Completed user_login in 0.00s
+2025-12-01 00:44:38,749 - valutetrade_hub.logging_config - INFO - User 1: Starting get_portfolio_info
+2025-12-01 00:44:38,752 - valutetrade_hub.logging_config - INFO - User 1: Completed get_portfolio_info in 0.00s
+2025-12-01 00:44:50,080 - valutetrade_hub.logging_config - INFO - User 1: Starting buy_currency
+2025-12-01 00:44:50,083 - valutetrade_hub.logging_config - INFO - User 1: Completed buy_currency in 0.00s
+2025-12-01 00:44:57,366 - valutetrade_hub.logging_config - INFO - User 1: Starting get_portfolio_info
+2025-12-01 00:44:57,369 - valutetrade_hub.logging_config - INFO - User 1: Completed get_portfolio_info in 0.00s
+2025-12-01 00:45:09,256 - valutetrade_hub.logging_config - INFO - User None: Starting get_exchange_rate
+2025-12-01 00:45:09,258 - valutetrade_hub.logging_config - INFO - User None: Completed get_exchange_rate in 0.00s
+2025-12-01 00:45:22,429 - valutetrade_hub.logging_config - INFO - User None: Starting get_exchange_rate
+2025-12-01 00:45:22,433 - valutetrade_hub.logging_config - INFO - User None: Completed get_exchange_rate in 0.00s
+2025-12-01 00:45:39,993 - valutetrade_hub.parser_service.updater - INFO - Starting rates update...
+2025-12-01 00:45:39,993 - valutetrade_hub.parser_service.updater - INFO - Fetching from coingecko...
+2025-12-01 00:45:41,515 - valutetrade_hub.parser_service.updater - INFO - Fetching from coingecko... OK (3 rates)
+2025-12-01 00:45:41,515 - valutetrade_hub.parser_service.updater - INFO - Fetching from exchangerate...
+2025-12-01 00:45:42,190 - valutetrade_hub.parser_service.updater - INFO - Fetching from exchangerate... OK (3 rates)
+2025-12-01 00:45:42,190 - valutetrade_hub.parser_service.updater - INFO - Update successful. Total rates updated: 6. Last refresh: 2025-11-30T21:45:42.190375Z
+2025-12-01 00:45:51,267 - valutetrade_hub.logging_config - INFO - User None: Starting get_exchange_rate
+2025-12-01 00:45:51,269 - valutetrade_hub.logging_config - INFO - User None: Completed get_exchange_rate in 0.00s
+2025-12-01 00:46:10,119 - valutetrade_hub.logging_config - INFO - User 1: Starting buy_currency
+2025-12-01 00:46:10,125 - valutetrade_hub.logging_config - INFO - User 1: Completed buy_currency in 0.01s
+2025-12-01 00:46:16,215 - valutetrade_hub.logging_config - INFO - User 1: Starting get_portfolio_info
+2025-12-01 00:46:16,218 - valutetrade_hub.logging_config - INFO - User 1: Completed get_portfolio_info in 0.00s
+2025-12-01 00:46:57,540 - valutetrade_hub.logging_config - INFO - User 1: Starting sell_currency
+2025-12-01 00:46:57,544 - valutetrade_hub.logging_config - INFO - User 1: Completed sell_currency in 0.00s
+2025-12-01 00:47:04,762 - valutetrade_hub.logging_config - INFO - User 1: Starting get_portfolio_info
+2025-12-01 00:47:04,765 - valutetrade_hub.logging_config - INFO - User 1: Completed get_portfolio_info in 0.00s
+2025-12-01 00:47:18,022 - valutetrade_hub.logging_config - INFO - User None: Starting get_exchange_rate
+2025-12-01 00:47:18,024 - valutetrade_hub.logging_config - INFO - User None: Completed get_exchange_rate in 0.00s
+2025-12-01 00:47:33,789 - valutetrade_hub.logging_config - INFO - User 1: Starting buy_currency
+2025-12-01 00:47:33,792 - valutetrade_hub.logging_config - INFO - User 1: Completed buy_currency in 0.00s
+2025-12-01 00:55:21,594 - valutetrade_hub.logging_config - INFO - User None: Starting user_registration
+2025-12-01 00:55:21,596 - valutetrade_hub.logging_config - WARNING - Failed to load users from file
+2025-12-01 00:55:21,598 - valutetrade_hub.logging_config - INFO - User None: Completed user_registration in 0.00s
+2025-12-01 00:55:35,594 - valutetrade_hub.logging_config - INFO - User None: Starting user_login
+2025-12-01 00:55:35,595 - valutetrade_hub.logging_config - INFO - User None: Completed user_login in 0.00s
+2025-12-01 00:55:41,933 - valutetrade_hub.logging_config - INFO - User 1: Starting get_portfolio_info
+2025-12-01 00:55:41,937 - valutetrade_hub.logging_config - INFO - User 1: Completed get_portfolio_info in 0.00s
+2025-12-01 00:55:53,285 - valutetrade_hub.logging_config - INFO - User 1: Starting buy_currency
+2025-12-01 00:55:53,285 - valutetrade_hub.logging_config - INFO - User 1: Completed buy_currency in 0.00s
+2025-12-01 00:59:41,189 - valutetrade_hub.logging_config - INFO - User None: Starting user_registration
+2025-12-01 00:59:41,190 - valutetrade_hub.logging_config - WARNING - Failed to load users from file
+2025-12-01 00:59:41,192 - valutetrade_hub.logging_config - INFO - User None: Completed user_registration in 0.00s
+2025-12-01 00:59:54,732 - valutetrade_hub.logging_config - INFO - User None: Starting user_login
+2025-12-01 00:59:54,734 - valutetrade_hub.logging_config - INFO - User None: Completed user_login in 0.00s
+2025-12-01 01:00:03,357 - valutetrade_hub.logging_config - INFO - User 1: Starting get_portfolio_info
+2025-12-01 01:00:03,360 - valutetrade_hub.logging_config - INFO - User 1: Completed get_portfolio_info in 0.00s
+2025-12-01 01:00:14,590 - valutetrade_hub.logging_config - INFO - User 1: Starting buy_currency
+2025-12-01 01:00:14,591 - valutetrade_hub.parser_service.updater - INFO - Starting rates update...
+2025-12-01 01:00:14,591 - valutetrade_hub.parser_service.updater - INFO - Fetching from coingecko...
+2025-12-01 01:00:24,615 - valutetrade_hub.parser_service.updater - ERROR - Failed to fetch from coingecko: Network error when requesting CoinGecko: HTTPSConnectionPool(host='api.coingecko.com', port=443): Max retries exceeded with url: /api/v3/simple/price?ids=bitcoin%2Cethereum%2Csolana&vs_currencies=usd (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x10112a1e0>: Failed to resolve 'api.coingecko.com' ([Errno 8] nodename nor servname provided, or not known)"))
+2025-12-01 01:00:24,615 - valutetrade_hub.parser_service.updater - INFO - Fetching from exchangerate...
+2025-12-01 01:00:34,641 - valutetrade_hub.parser_service.updater - ERROR - Failed to fetch from exchangerate: Network error when requesting ExchangeRate-API: HTTPSConnectionPool(host='v6.exchangerate-api.com', port=443): Max retries exceeded with url: /v6/19b4ae2cbd9426591737db05/latest/USD (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x1024e5cd0>: Failed to resolve 'v6.exchangerate-api.com' ([Errno 8] nodename nor servname provided, or not known)"))
+2025-12-01 01:00:34,645 - valutetrade_hub.parser_service.updater - WARNING - Update completed with 2 errors. Check logs for details.
+2025-12-01 01:00:34,645 - valutetrade_hub.logging_config - INFO - User 1: Completed buy_currency in 20.06s
+2025-12-01 01:02:15,434 - valutetrade_hub.logging_config - INFO - User None: Starting user_registration
+2025-12-01 01:02:15,436 - valutetrade_hub.logging_config - WARNING - Failed to load users from file
+2025-12-01 01:02:15,437 - valutetrade_hub.logging_config - INFO - User None: Completed user_registration in 0.00s
+2025-12-01 01:02:33,403 - valutetrade_hub.logging_config - INFO - User None: Starting user_login
+2025-12-01 01:02:33,405 - valutetrade_hub.logging_config - INFO - User None: Completed user_login in 0.00s
+2025-12-01 01:02:39,730 - valutetrade_hub.logging_config - INFO - User 1: Starting get_portfolio_info
+2025-12-01 01:02:39,732 - valutetrade_hub.logging_config - INFO - User 1: Completed get_portfolio_info in 0.00s
+2025-12-01 01:02:51,298 - valutetrade_hub.logging_config - INFO - User 1: Starting buy_currency
+2025-12-01 01:02:51,300 - valutetrade_hub.parser_service.updater - INFO - Starting rates update...
+2025-12-01 01:02:51,300 - valutetrade_hub.parser_service.updater - INFO - Fetching from coingecko...
+2025-12-01 01:03:01,337 - valutetrade_hub.parser_service.updater - ERROR - Failed to fetch from coingecko: Network error when requesting CoinGecko: HTTPSConnectionPool(host='api.coingecko.com', port=443): Max retries exceeded with url: /api/v3/simple/price?ids=bitcoin%2Cethereum%2Csolana&vs_currencies=usd (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x104e9e990>: Failed to resolve 'api.coingecko.com' ([Errno 8] nodename nor servname provided, or not known)"))
+2025-12-01 01:03:01,337 - valutetrade_hub.parser_service.updater - INFO - Fetching from exchangerate...
+2025-12-01 01:03:11,403 - valutetrade_hub.parser_service.updater - ERROR - Failed to fetch from exchangerate: Network error when requesting ExchangeRate-API: HTTPSConnectionPool(host='v6.exchangerate-api.com', port=443): Max retries exceeded with url: /v6/19b4ae2cbd9426591737db05/latest/USD (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x105f62330>: Failed to resolve 'v6.exchangerate-api.com' ([Errno 8] nodename nor servname provided, or not known)"))
+2025-12-01 01:03:11,406 - valutetrade_hub.parser_service.updater - WARNING - Update completed with 2 errors. Check logs for details.
+2025-12-01 01:03:11,407 - valutetrade_hub.logging_config - INFO - User 1: Completed buy_currency in 20.11s
+2025-12-01 01:03:20,582 - valutetrade_hub.logging_config - INFO - User 1: Starting get_portfolio_info
+2025-12-01 01:03:20,585 - valutetrade_hub.logging_config - INFO - User 1: Completed get_portfolio_info in 0.00s
+2025-12-01 01:03:31,873 - valutetrade_hub.logging_config - INFO - User None: Starting get_exchange_rate
+2025-12-01 01:03:31,875 - valutetrade_hub.logging_config - INFO - User None: Completed get_exchange_rate in 0.00s
+2025-12-01 01:04:05,222 - valutetrade_hub.parser_service.updater - INFO - Starting rates update...
+2025-12-01 01:04:05,223 - valutetrade_hub.parser_service.updater - INFO - Fetching from coingecko...
+2025-12-01 01:04:05,226 - valutetrade_hub.parser_service.updater - ERROR - Failed to fetch from coingecko: Network error when requesting CoinGecko: HTTPSConnectionPool(host='api.coingecko.com', port=443): Max retries exceeded with url: /api/v3/simple/price?ids=bitcoin%2Cethereum%2Csolana&vs_currencies=usd (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x105f8d790>: Failed to resolve 'api.coingecko.com' ([Errno 8] nodename nor servname provided, or not known)"))
+2025-12-01 01:04:05,226 - valutetrade_hub.parser_service.updater - INFO - Fetching from exchangerate...
+2025-12-01 01:04:05,228 - valutetrade_hub.parser_service.updater - ERROR - Failed to fetch from exchangerate: Network error when requesting ExchangeRate-API: HTTPSConnectionPool(host='v6.exchangerate-api.com', port=443): Max retries exceeded with url: /v6/19b4ae2cbd9426591737db05/latest/USD (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x105f61730>: Failed to resolve 'v6.exchangerate-api.com' ([Errno 8] nodename nor servname provided, or not known)"))
+2025-12-01 01:04:05,229 - valutetrade_hub.parser_service.updater - WARNING - Update completed with 2 errors. Check logs for details.
+2025-12-01 01:04:42,258 - valutetrade_hub.logging_config - INFO - User 1: Starting buy_currency
+2025-12-01 01:04:42,259 - valutetrade_hub.parser_service.updater - INFO - Starting rates update...
+2025-12-01 01:04:42,259 - valutetrade_hub.parser_service.updater - INFO - Fetching from coingecko...
+2025-12-01 01:04:52,372 - valutetrade_hub.parser_service.updater - ERROR - Failed to fetch from coingecko: Network error when requesting CoinGecko: HTTPSConnectionPool(host='api.coingecko.com', port=443): Max retries exceeded with url: /api/v3/simple/price?ids=bitcoin%2Cethereum%2Csolana&vs_currencies=usd (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x105f61af0>: Failed to resolve 'api.coingecko.com' ([Errno 8] nodename nor servname provided, or not known)"))
+2025-12-01 01:04:52,373 - valutetrade_hub.parser_service.updater - INFO - Fetching from exchangerate...
+2025-12-01 01:05:02,392 - valutetrade_hub.parser_service.updater - ERROR - Failed to fetch from exchangerate: Network error when requesting ExchangeRate-API: HTTPSConnectionPool(host='v6.exchangerate-api.com', port=443): Max retries exceeded with url: /v6/19b4ae2cbd9426591737db05/latest/USD (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x105f8f860>: Failed to resolve 'v6.exchangerate-api.com' ([Errno 8] nodename nor servname provided, or not known)"))
+2025-12-01 01:05:02,396 - valutetrade_hub.parser_service.updater - WARNING - Update completed with 2 errors. Check logs for details.
+2025-12-01 01:05:02,399 - valutetrade_hub.logging_config - INFO - User 1: Completed buy_currency in 20.14s
+2025-12-01 01:05:24,765 - valutetrade_hub.logging_config - INFO - User None: Starting get_exchange_rate
+2025-12-01 01:05:24,767 - valutetrade_hub.logging_config - INFO - User None: Completed get_exchange_rate in 0.00s
+2025-12-01 01:18:03,315 - valutetrade_hub.parser_service.scheduler - INFO - Scheduled rates updates every 60 minutes
+2025-12-01 01:18:03,315 - valutetrade_hub.parser_service.scheduler - INFO - Scheduler started
+2025-12-01 01:18:17,165 - valutetrade_hub.logging_config - INFO - User None: Starting get_exchange_rate
+2025-12-01 01:18:17,167 - valutetrade_hub.logging_config - INFO - User None: Completed get_exchange_rate in 0.00s
+2025-12-01 01:19:20,444 - valutetrade_hub.parser_service.scheduler - INFO - Scheduled rates updates every 60 minutes
+2025-12-01 01:19:20,444 - valutetrade_hub.parser_service.scheduler - INFO - Scheduler started
+2025-12-01 01:19:58,058 - valutetrade_hub.parser_service.scheduler - INFO - Scheduled rates updates every 60 minutes
+2025-12-01 01:19:58,061 - valutetrade_hub.parser_service.scheduler - INFO - Scheduler started
+2025-12-01 01:20:13,842 - valutetrade_hub.parser_service.scheduler - INFO - Scheduled rates updates every 60 minutes
+2025-12-01 01:20:13,843 - valutetrade_hub.parser_service.scheduler - INFO - Scheduler started
+2025-12-01 01:24:00,504 - valutetrade_hub.parser_service.scheduler - INFO - Scheduler started
+2025-12-01 01:25:21,321 - valutetrade_hub.parser_service.scheduler - INFO - Scheduler stopped by user
+2025-12-01 01:25:21,323 - valutetrade_hub.parser_service.scheduler - INFO - Scheduler finished
+2025-12-01 01:25:55,569 - valutetrade_hub.logging_config - INFO - User None: Starting get_exchange_rate
+2025-12-01 01:25:55,571 - valutetrade_hub.logging_config - INFO - User None: Completed get_exchange_rate in 0.00s
+2025-12-01 01:28:44,185 - valutetrade_hub.parser_service.updater - INFO - Starting rates update...
+2025-12-01 01:28:44,185 - valutetrade_hub.parser_service.updater - INFO - Fetching from coingecko...
+2025-12-01 01:28:44,627 - valutetrade_hub.parser_service.updater - INFO - Fetching from coingecko... OK (3 rates)
+2025-12-01 01:28:44,627 - valutetrade_hub.parser_service.updater - INFO - Fetching from exchangerate...
+2025-12-01 01:28:45,106 - valutetrade_hub.parser_service.updater - INFO - Fetching from exchangerate... OK (3 rates)
+2025-12-01 01:28:45,108 - valutetrade_hub.parser_service.updater - INFO - Update successful. Total rates updated: 6. Last refresh: 2025-11-30T22:28:45.106377Z
+2025-12-01 01:28:53,981 - valutetrade_hub.logging_config - INFO - User None: Starting get_exchange_rate
+2025-12-01 01:28:53,981 - valutetrade_hub.logging_config - INFO - User None: Completed get_exchange_rate in 0.00s
+2025-12-01 01:48:53,079 - valutetrade_hub.parser_service.updater - INFO - Starting rates update...
+2025-12-01 01:48:53,080 - valutetrade_hub.parser_service.updater - INFO - Fetching from coingecko...
+2025-12-01 01:48:53,695 - valutetrade_hub.parser_service.updater - INFO - Fetching from coingecko... OK (3 rates)
+2025-12-01 01:48:53,695 - valutetrade_hub.parser_service.updater - INFO - Fetching from exchangerate...
+2025-12-01 01:48:54,129 - valutetrade_hub.parser_service.updater - INFO - Fetching from exchangerate... OK (3 rates)
+2025-12-01 01:48:54,129 - valutetrade_hub.parser_service.updater - INFO - Update successful. Total rates updated: 6. Last refresh: 2025-11-30T22:48:54.129295Z
+2025-12-01 01:49:12,297 - valutetrade_hub.logging_config - INFO - User None: Starting user_registration
+2025-12-01 01:49:12,297 - valutetrade_hub.logging_config - INFO - User None: Completed user_registration in 0.00s
+2025-12-01 01:51:53,002 - valutetrade_hub.parser_service.updater - INFO - Starting rates update...
+2025-12-01 01:51:53,002 - valutetrade_hub.parser_service.updater - INFO - Fetching from coingecko...
+2025-12-01 01:51:53,406 - valutetrade_hub.parser_service.updater - INFO - Fetching from coingecko... OK (3 rates)
+2025-12-01 01:51:53,407 - valutetrade_hub.parser_service.updater - INFO - Fetching from exchangerate...
+2025-12-01 01:51:53,742 - valutetrade_hub.parser_service.updater - INFO - Fetching from exchangerate... OK (3 rates)
+2025-12-01 01:51:53,743 - valutetrade_hub.parser_service.updater - INFO - Update successful. Total rates updated: 6. Last refresh: 2025-11-30T22:51:53.743119Z
+2025-12-01 01:52:07,499 - valutetrade_hub.logging_config - INFO - User None: Starting user_registration
+2025-12-01 01:52:07,501 - valutetrade_hub.logging_config - WARNING - Failed to load users from file
+2025-12-01 01:52:07,502 - valutetrade_hub.logging_config - INFO - User None: Completed user_registration in 0.00s
+2025-12-01 01:52:20,523 - valutetrade_hub.logging_config - INFO - User None: Starting user_login
+2025-12-01 01:52:20,524 - valutetrade_hub.logging_config - INFO - User None: Completed user_login in 0.00s
+2025-12-01 01:52:29,469 - valutetrade_hub.logging_config - INFO - User 1: Starting get_portfolio_info
+2025-12-01 01:52:29,472 - valutetrade_hub.logging_config - INFO - User 1: Completed get_portfolio_info in 0.00s
+2025-12-01 01:52:43,043 - valutetrade_hub.logging_config - INFO - User 1: Starting buy_currency
+2025-12-01 01:52:43,046 - valutetrade_hub.logging_config - INFO - User 1: Completed buy_currency in 0.00s
+2025-12-01 01:52:54,863 - valutetrade_hub.logging_config - INFO - User None: Starting get_exchange_rate
+2025-12-01 01:52:54,864 - valutetrade_hub.logging_config - INFO - User None: Completed get_exchange_rate in 0.00s
+2025-12-01 01:53:09,090 - valutetrade_hub.logging_config - INFO - User 1: Starting buy_currency
+2025-12-01 01:53:09,092 - valutetrade_hub.logging_config - INFO - User 1: Completed buy_currency in 0.00s
+2025-12-01 01:53:29,472 - valutetrade_hub.logging_config - INFO - User 1: Starting buy_currency
+2025-12-01 01:53:29,475 - valutetrade_hub.logging_config - INFO - User 1: Completed buy_currency in 0.00s
+2025-12-01 01:53:35,279 - valutetrade_hub.logging_config - INFO - User 1: Starting get_portfolio_info
+2025-12-01 01:53:35,281 - valutetrade_hub.logging_config - INFO - User 1: Completed get_portfolio_info in 0.00s
+2025-12-01 01:53:55,819 - valutetrade_hub.logging_config - INFO - User 1: Starting sell_currency
+2025-12-01 01:53:55,822 - valutetrade_hub.logging_config - INFO - User 1: Completed sell_currency in 0.00s
+2025-12-01 01:54:08,239 - valutetrade_hub.logging_config - INFO - User 1: Starting get_portfolio_info
+2025-12-01 01:54:08,243 - valutetrade_hub.logging_config - INFO - User 1: Completed get_portfolio_info in 0.00s

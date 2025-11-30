@@ -47,7 +47,7 @@ class User:
     def verify_password(self, password: str) -> bool:
         """Verify user password"""
         if len(password) < 4:
-            return False, 'Password must be at least 4 characters long'
+            return False
         return self._hashed_password == self._hash_password(password, self._salt)
     
     @property

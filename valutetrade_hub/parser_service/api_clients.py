@@ -59,6 +59,8 @@ class CoinGeckoClient(BaseApiClient):
             
         except requests.exceptions.RequestException as e:
             raise ApiRequestError(f"Network error when requesting CoinGecko: {str(e)}")
+        except Exception as e:
+            raise ApiRequestError(f"Unexpected error when requesting CoinGecko: {str(e)}")
         except KeyError as e:
             raise ApiRequestError(f"Error parsing data from CoinGecko: missing key {str(e)}")
         except Exception as e:
@@ -70,39 +72,33 @@ class ExchangeRateApiClient(BaseApiClient):
     def fetch_rates(self) -> Dict[str, float]:
         """Get fiat currency rates from ExchangeRate-API"""
         try:
-            # Form URL with API key and base currency
             url = f"{self.config.EXCHANGERATE_API_URL}/{self.config.EXCHANGERATE_API_KEY}/latest/{self.config.BASE_CURRENCY}"
             
-            # Send request
             response = requests.get(
                 url,
                 timeout=self.config.REQUEST_TIMEOUT
             )
             
-            # Check response status
             if response.status_code != 200:
                 raise ApiRequestError(f"ExchangeRate-API returned status {response.status_code}")
             
-            # Parse response
             data = response.json()
             
-            # Check result
             if data.get("result") != "success":
                 raise ApiRequestError("ExchangeRate-API returned error in data")
             
-            # Convert data to standard format
             rates = {}
             for currency in self.config.FIAT_CURRENCIES:
                 if currency in data.get("conversion_rates", {}):
                     rate = data["conversion_rates"][currency]
-                    # For fiat currencies, save rate as BASE_CURRENCY -> currency
-                    # For example, USD_RUB = 78.1083 (1 USD = 78.1083 RUB)
                     rates[f"{self.config.BASE_CURRENCY}_{currency}"] = rate
             
             return rates
             
         except requests.exceptions.RequestException as e:
             raise ApiRequestError(f"Network error when requesting ExchangeRate-API: {str(e)}")
+        except Exception as e:
+            raise ApiRequestError(f"Unexpected error when requesting ExchangeRate-API: {str(e)}")
         except KeyError as e:
             raise ApiRequestError(f"Error parsing data from ExchangeRate-API: missing key {str(e)}")
         except Exception as e:

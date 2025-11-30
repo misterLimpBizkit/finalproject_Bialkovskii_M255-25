@@ -154,7 +154,15 @@ class DatabaseManager:
         if pair_key in pairs:
             rate_data = pairs.get(pair_key)
             if rate_data and "rate" in rate_data:
-                return rate_data.get("rate")
+                rate = rate_data.get("rate")
+                return rate
+        
+        # Check old format (direct key access)
+        if pair_key in data:
+            rate_data = data.get(pair_key)
+            if rate_data and isinstance(rate_data, dict) and "rate" in rate_data:
+                rate = rate_data.get("rate")
+                return rate
         
         # Reverse rate (if USD_RUB exists, then RUB_USD = 1/USD_RUB)
         if reverse_pair_key in pairs:

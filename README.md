@@ -86,6 +86,6 @@ valutetrade_hub/
 - `data/rates.json` - актуальные курсы для использования в основном приложении
 - `data/exchange_rates.json` - история всех полученных курсов
 
-## Лицензия
+## Запись asciinema 
 
-MIT
+Запись asciinema находится в папке `asciinema`.
