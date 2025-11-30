@@ -1,8 +1,0 @@
-{
-  "test": {
-    "user_id": 1,
-    "hashed_password": "fda136d8654edf55f6b5583c7e10c22f4753017fb678d0d9b9f380197392b65d",
-    "salt": "39f032b138e7a9df97ad9f5050176fd5",
-    "registration_date": "2025-12-01T01:52:07.501445"
-  }
-}

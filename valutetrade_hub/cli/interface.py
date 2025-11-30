@@ -124,6 +124,16 @@ class CLIInterface:
         show_rates_parser.add_argument('--currency', help='Show rate only for the specified currency')
         show_rates_parser.add_argument('--top', type=int, help='Show top N most expensive cryptocurrencies')
         show_rates_parser.add_argument('--base', default='USD', help='Base currency (default USD)')
+
+        # Schedule command
+        schedule_parser = subparsers.add_parser('schedule', help='Start automatic rate updates')
+        schedule_parser.add_argument('--interval', type=int, default=60, 
+                                help='Update interval in minutes (default: 60)')
+        schedule_parser.add_argument('--daily', type=str, 
+                                help='Daily update time (format: HH:MM)')
+        
+        # Stop scheduler command
+        subparsers.add_parser('stop-scheduler', help='Stop background scheduler')
         
         # Help command
         subparsers.add_parser('help', help='Show help')
@@ -149,6 +159,8 @@ class CLIInterface:
             self._handle_get_rate(args)
         elif args.command == 'help':
             self._print_help()
+        elif args.command == 'schedule':
+            self._handle_schedule(args)
         elif args.command == 'exit':
             print("Goodbye!")
             sys.exit(0)
@@ -156,24 +168,31 @@ class CLIInterface:
             self._handle_update_rates(args)
         elif args.command == 'show-rates':
             self._handle_show_rates(args)
+        elif args.command == 'stop-scheduler':
+            self._handle_stop_scheduler()
         else:
             self._print_help()
     
     def _print_help(self):
         """Show help message"""
         help_text = """
- Available commands:
-   register --username USERNAME --password PASSWORD  Register a new user
-   login --username USERNAME --password PASSWORD     Login to the system
-   show-portfolio [--base BASE]                     Show portfolio
-   buy --currency CURRENCY --amount AMOUNT             Buy currency
-   sell --currency CURRENCY --amount AMOUNT           Sell currency
-   get-rate --from FROM --to TO                      Get currency rate
-   update-rates [--source SOURCE]                   Update currency rates
-   show-rates [--currency CURRENCY] [--top N] [--base BASE]  Show current rates
-   help                                              Show this help
-   exit                                              Exit the program
-        """
+    Available commands:
+    register --username USER --password PASS    Register new user
+    login --username USER --password PASS       Login to system  
+    portfolio [--base CURRENCY]                 Show portfolio
+    buy --currency CURRENCY --amount AMOUNT     Buy currency
+    sell --currency CURRENCY --amount AMOUNT    Sell currency
+    rate --from CURRENCY --to CURRENCY          Get exchange rate
+    schedule [--interval MIN] [--daily HH:MM]   Start auto updates (background)
+    stop-scheduler                              Stop background scheduler
+    help                                        Show this help
+    exit                                        Exit program
+
+    Examples:
+    schedule --interval 30                      # Update every 30 minutes in background
+    schedule --daily 09:00                      # Update daily at 9 AM in background
+    stop-scheduler                              # Stop background updates
+    """
         print(help_text.strip())
     
     def _handle_register(self, args):
@@ -347,6 +366,51 @@ class CLIInterface:
                 
         except Exception as e:
             print(f"Error getting rates: {e}")
+
+    def _handle_schedule(self, args):
+        """Handle schedule command - start automatic rate updates in background"""
+        try:
+            import threading
+            
+            print("Starting automatic rate updates scheduler in background...")
+            print("Scheduler is now running. You can continue using other commands.")
+            print("To stop scheduler, use: stop-scheduler")
+            
+            from valutetrade_hub.parser_service.scheduler import Scheduler
+            
+            self.scheduler = Scheduler()
+            
+            if args.daily:
+                self.scheduler.schedule_daily_updates(args.daily)
+                print(f"Daily updates scheduled at {args.daily}")
+            else:
+                self.scheduler.schedule_updates(args.interval)
+                print(f"Updates scheduled every {args.interval} minutes")
+            
+            self.scheduler_thread = threading.Thread(
+                target=self.scheduler.run_scheduler,
+                daemon=True
+            )
+            self.scheduler_thread.start()
+            
+            print("✓ Scheduler started successfully!")
+            
+        except ImportError:
+            print("Error: Scheduler module not available")
+        except Exception as e:
+            print(f"Error starting scheduler: {e}")
+
+    def _handle_stop_scheduler(self):
+        """Stop the background scheduler"""
+        if hasattr(self, 'scheduler') and self.scheduler:
+            self.scheduler.stop_scheduler()
+            print("Scheduler stop requested. It will stop shortly.")
+            
+            if hasattr(self, 'scheduler_thread') and self.scheduler_thread.is_alive():
+                self.scheduler_thread.join(timeout=5)
+                print("Scheduler stopped.")
+        else:
+            print("No scheduler is currently running.")
 def main():
     """CLI entry point"""
     import sys
